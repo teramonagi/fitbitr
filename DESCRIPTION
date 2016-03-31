@@ -1,0 +1,14 @@
+Package: fitbitr
+Type: Package
+Version: 0.1
+Authors@R: c(
+  person("Nagi", "Teramo", , "teramonagi@gmail.com", c("aut", "cre")),
+  person("Shinichi", "Takayanagi", , "shinichi.takayanagi@gmail.com", "aut"))
+Title: Provides Access to Fitbit API
+Description: An implementation of Fitbit API.
+License: MIT + file LICENSE
+Imports:
+    httr
+Suggests:
+    testthat
+RoxygenNote: 5.0.1
