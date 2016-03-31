@@ -10,26 +10,31 @@ get_sleep_time_series(token, resource_path, date = "", period = "",
 \arguments{
 \item{token}{An OAuth 2.0 token}
 
+\item{resource_path}{The resource path; see the Resource Path Options below for a list of options.}
+
 \item{date}{The end date of the period specified in the format yyyy-MM-dd or today.}
 
 \item{period}{The range for which data will be returned. Options are 1d, 7d, 30d, 1w, 1m, 3m, 6m, 1y, or max.}
 
 \item{base_date}{The range start date, in the format yyyy-MM-dd or today.}
 
-\item{end_date}{The end date of the range.
-startTime
-timeInBed
-minutesAsleep
-awakeningsCount
-minutesAwake
-minutesToFallAsleep
-minutesAfterWakeup
-efficiency}
-
-\item{resource-path}{The resource path; see the Resource Path Options below for a list of options.}
+\item{end_date}{The end date of the range.}
 }
 \description{
 Returns time series data in the specified range for a given resource in the format requested.
 Note: Even if you provide earlier dates in the request, the response retrieves only data since the user's join date or the first log entry date for the requested collection.
+}
+\details{
+Resource Path Options in more detail.
+\itemize{
+  \item{startTime}
+  \item{timeInBed}
+  \item{minutesAsleep}
+  \item{awakeningsCount}
+  \item{minutesAwake}
+  \item{minutesToFallAsleep}
+  \item{minutesAfterWakeup}
+  \item{efficiency}
+}
 }
 

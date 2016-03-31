@@ -14,6 +14,9 @@ get_sleep_logs(token, date)
 
 \item{date}{The date of records to be returned. In the format yyyy-MM-dd(character) or Date object.}
 }
+\value{
+a list of "sleep" and "summary" data.frame. "sleep" data.frame contains time series information of sleep. "summary" data.frame contains the summary of each "sleep" information.
+}
 \description{
 The relationship between sleep log entry properties is expressed with the following equation:
 timeInBed = minutesToFallAsleep + minutesAsleep + minutesAwake + minutesAfterWakeup

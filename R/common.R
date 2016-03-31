@@ -10,7 +10,7 @@ get <- function(url, token)
 
 post <- function(url, token, body)
 {
-  httr::GET(url=url, body=body, httr::config(token = token))
+  httr::POST(url=url, body=body, httr::config(token = token))
 }
 
 convert_content_to_r_object <- function(response)

@@ -1,16 +1,14 @@
 # fitbitr [![CRAN Version](http://www.r-pkg.org/badges/version/fitbitr)](http://cran.rstudio.com/web/packages/fitbitr) ![](http://cranlogs.r-pkg.org/badges/grand-total/fitbitr)
 
-fitbit
+fitbitr package allows users to interact with Fitbit data in R using Fitbit API.
+This package allows for most of the read and write methods that you might want to use. 
 
 ## Installation
-
 fitbitr isn't available from CRAN yet, but you can get it from github with:
-
 ```R
 # install.packages("devtools")
 devtools::install_github("teramonagi/fitbitr")
 ```
-
 
 ## Example
 
@@ -59,6 +57,12 @@ update_sleep_goal(token, 377)
 
 #Get Sleep Time Series
 get_sleep_time_series(token, "timeInBed", date="2016-03-30", period="7d")
+
+#Log sleep
+log_sleep(token, "22:00", 180, date="2010-02-17")
+
+#Delete sleep log
+delete_sleep_log(token, log_id)
 ```
 
 ### Subscriptions
@@ -76,4 +80,4 @@ get_sleep_time_series(token, "timeInBed", date="2016-03-30", period="7d")
 
 ## Acknowledgements
 
-Many thanks to Mi.dichika since This package is based on the extension of [myFitbit package](https://github.com/dichika/myFitbit).
+Many thanks to Mr.dichika since This package is based on the extension of [myFitbit package](https://github.com/dichika/myFitbit).
