@@ -1,6 +1,5 @@
 #Constants
-url_api   <- "https://api.fitbit.com/1/user/-/"
-url_sleep <- "https://api.fitbit.com/1/user/-/sleep/"
+url_sleep <- paste0(url_api, "sleep/")
 
 #' Get Sleep Logs
 #' Returns a summary and list of a user's sleep log entries as well as minute by minute sleep entry data for a given day in the format requested.

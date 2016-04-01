@@ -31,7 +31,20 @@ devtools::install_github("teramonagi/fitbitr")
 - https://dev.fitbit.com/docs/heart-rate/
 ```R
 #Load library
+library("ggplot2")
 library("fitbitr")
+#Get token
+token <- oauth_token()
+
+# Set a date for example
+date <- "2016-03-30"
+
+# Get heart rate time series
+get_heart_rate_time_series(token, date="2016-03-30", period="1d")
+
+# Get intraday heart rate time series
+df <- get_heart_rate_intraday_time_series(token, date=date, detail_level="1min")
+ggplot(df, aes(x=time, y=value)) + geom_line()
 ```
 
 ### Sleep

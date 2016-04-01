@@ -4,8 +4,14 @@
 \name{fitbitr}
 \alias{fitbitr}
 \alias{fitbitr-package}
+\alias{url_api}
 \title{fitbitr}
+\format{An object of class \code{character} of length 1.}
+\usage{
+url_api
+}
 \description{
 Provides an API Access to fitbit API via R
 }
+\keyword{datasets}
 

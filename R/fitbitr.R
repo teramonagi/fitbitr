@@ -4,5 +4,5 @@
 #'
 #' @name fitbitr
 #' @docType package
-#' @import httr dplyr lubridate stringr data.table
-NULL
+#' @import httr dplyr tidyr lubridate stringr data.table
+url_api   <- "https://api.fitbit.com/1/user/-/"
