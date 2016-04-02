@@ -8,7 +8,7 @@ Title: Provides Access to Fitbit API
 Description: An implementation of Fitbit API.
 License: MIT + file LICENSE
 Imports:
-    httr
+    httr,data.table
 Suggests:
     testthat
 RoxygenNote: 5.0.1
