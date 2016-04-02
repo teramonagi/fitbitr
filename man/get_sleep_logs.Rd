@@ -9,7 +9,7 @@ get_sleep_logs(token, date)
 \arguments{
 \item{token}{An OAuth 2.0 token}
 
-\item{date}{The date of records to be returned. In the format yyyy-MM-dd(character) or Date object.}
+\item{date}{The date of records to be returned in the format "yyyy-MM-dd" or "today" as a string or Date object.}
 }
 \value{
 a list of "sleep" and "summary" data.frame. "sleep" data.frame contains time series information of sleep. "summary" data.frame contains the summary of each "sleep" information.

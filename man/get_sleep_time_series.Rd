@@ -12,13 +12,13 @@ get_sleep_time_series(token, resource_path, date = "", period = "",
 
 \item{resource_path}{The resource path; see the Resource Path Options below for a list of options.}
 
-\item{date}{The end date of the period specified in the format yyyy-MM-dd or today.}
+\item{date}{The end date of the period specified in the format "yyyy-MM-dd" or "today" as a string or Date object.}
 
 \item{period}{The range for which data will be returned. Options are 1d, 7d, 30d, 1w, 1m, 3m, 6m, 1y, or max.}
 
-\item{base_date}{The range start date, in the format yyyy-MM-dd or today.}
+\item{base_date}{The range start date in the format "yyyy-MM-dd" or "today" as a string or Date object.}
 
-\item{end_date}{The end date of the range.}
+\item{end_date}{The end date of the range in the format "yyyy-MM-dd" or "today" as a string or Date object.}
 }
 \description{
 Returns time series data in the specified range for a given resource in the format requested.

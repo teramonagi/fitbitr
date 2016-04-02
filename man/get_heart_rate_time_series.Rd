@@ -10,13 +10,13 @@ get_heart_rate_time_series(token, date = "", period = "", base_date = "",
 \arguments{
 \item{token}{An OAuth 2.0 token}
 
-\item{date}{The end date of the period specified in the format yyyy-MM-dd or today.}
+\item{date}{The end date of the period specified in the format "yyyy-MM-dd" or "today" as a string or Date object.}
 
 \item{period}{The range for which data will be returned. Options are 1d, 7d, 30d, 1w, 1m.}
 
-\item{base_date}{The range start date, in the format yyyy-MM-dd or today.}
+\item{base_date}{The range start date in the format "yyyy-MM-dd" or "today" as a string or Date object.}
 
-\item{end_date}{The end date of the range.}
+\item{end_date}{The end date of the range in the format "yyyy-MM-dd" or "today" as a string or Date object.}
 }
 \description{
 Returns time series data in the specified range for a given resource in the format requested
