@@ -37,10 +37,10 @@ library("fitbitr")
 token <- oauth_token()
 
 # Set a date for example
-date <- "2016-03-30"
+date <- "2016-04-01"
 
 # Get heart rate time series
-get_heart_rate_time_series(token, date="2016-03-30", period="1d")
+get_heart_rate_time_series(token, date=date, period="7d")
 
 # Get intraday heart rate time series
 df <- get_heart_rate_intraday_time_series(token, date=date, detail_level="1min")
@@ -66,7 +66,7 @@ x$summary
 #Get the current sleep goal.
 get_sleep_goal(token)
 #Update sleep goal
-update_sleep_goal(token, 377)
+update_sleep_goal(token, 380)
 
 #Get Sleep Time Series
 get_sleep_time_series(token, "timeInBed", date="2016-03-30", period="7d")

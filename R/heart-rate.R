@@ -16,11 +16,20 @@ get_heart_rate_time_series <- function(token, date="", period="", base_date="", 
 {
   url <- paste0(url_heart, sprintf("date/%s/%s.json", format_date(date), period))
   response <- get(url, token)
-  data <- convert_content_to_r_object(response)
-  df <- as.data.frame(data.table::rbindlist(data$'activities-heart'$value$heartRateZones))
+  data <- convert_content_to_r_object(response)$'activities-heart'
+  date <- as.Date(data$dateTime)
+
+  custom_heart_rate_zones <- lapply(data$value$customHeartRateZones, function(x) ifelse(length(x)==0, NA, x))
+
+  heart_rate_zones <- lapply(data$value$heartRateZones, function(x){
+    if(ncol(x)!=5){
+      data.frame(caloriesOut=NA, dplyr::select(x, max, min), minutes=0, name=x$name)
+    } else{x}
+  })
+  df <- as.data.frame(data.table::rbindlist(heart_rate_zones))
   df$name <- str_replace_all(tolower(df$name), " ", "_")
   df <- dplyr::data_frame(
-    date  = rep(rep(data$'activities-heart'$dateTime, each=4), 2),
+    date  = rep(rep(date, each=4), 2),
     name  = c(paste0(df$name, "_max"), paste0(df$name, "_min")),
     value = c(df$max, df$min)
   )
@@ -50,6 +59,6 @@ get_heart_rate_intraday_time_series <- function(token, date, detail_level, start
   response <- get(url, token)
   data <- convert_content_to_r_object(response)
   df <- data$'activities-heart-intraday'$dataset
-  df$time <- strptime(paste0(date, " ", df$time), "%Y-%m-%d %H:%M:%S")
+  df$time <- format_time_string(date, df$time)
   df
 }

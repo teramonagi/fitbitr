@@ -2,6 +2,7 @@
 url_sleep <- paste0(url_api, "sleep/")
 
 #' Get Sleep Logs
+#'
 #' Returns a summary and list of a user's sleep log entries as well as minute by minute sleep entry data for a given day in the format requested.
 #' The response includes summary for all sleep log entries for the given day (including naps.)
 #' If you need to fetch data only for the user's main sleep event, you can send the request with isMainSleep=true or use a Time Series call.
@@ -17,22 +18,24 @@ url_sleep <- paste0(url_api, "sleep/")
 #' @export
 get_sleep_logs <- function(token, date)
 {
-  url <- paste0(url_sleep, sprintf("date/%s.json", format_date(date)))
+  date <- format_date(date)
+  url <- paste0(url_sleep, sprintf("date/%s.json", date))
   response <- get(url, token)
   data <- convert_content_to_r_object(response)
-
-  if(length(data$sleep) == 0){
-    NULL
-  } else{
-    result <- suppressWarnings(list(
-      sleep=data.frame(
-        dplyr::select(data$sleep, -minuteData),
-        data$sleep$minuteData
-      ),
-      summary=as.data.frame(data$summary)
-    ))
-    result
-  }
+  data$sleep$dateOfSleep <- as.Date(data$sleep$dateOfSleep)
+  data$sleep$startTime   <- format_date_time(data$sleep$startTime)
+  data$sleep$minuteData  <- lapply(data$sleep$minuteData, function(x){
+    x$value <- as.numeric(x$value)
+    date_time <- format_time_string(date, x$dateTime)
+    is_date_change <- Reduce(function(x, y){x || y!=1}, diff(date_time), FALSE, accumulate=TRUE)
+    x$dateTime <- date_time + lubridate::days(1)*is_date_change
+    x
+  })
+  sleep <- suppressWarnings(cbind(
+    dplyr::select(data$sleep, -minuteData),
+    dplyr::bind_rows(data$sleep$minuteData)
+  ))
+  list(sleep=sleep, summary=as.data.frame(data$summary))
 }
 
 #' Get Sleep Goal
@@ -71,7 +74,9 @@ sleep_goal <- function(token, minDuration=NULL)
     post(url, token, body=list(minDuration=minDuration))
   }
 
-  as.data.frame(data.table::rbindlist(convert_content_to_r_object(response)))
+  result <- as.data.frame(data.table::rbindlist(convert_content_to_r_object(response)))
+  result$updatedOn <- format_date_time(result$updatedOn)
+  result
 }
 
 #' Get Sleep Time Series
@@ -100,7 +105,11 @@ sleep_goal <- function(token, minDuration=NULL)
 #' @export
 get_sleep_time_series <- function(token, resource_path, date="", period="", base_date="", end_date="")
 {
-  url <- paste0(url_sleep, sprintf("%s/date/%s/%s.json", resource_path, format_date(date), period))
+  url <- if(date != "" && period != ""){
+    paste0(url_sleep, sprintf("%s/date/%s/%s.json", resource_path, format_date(date), period))
+  } else if(base_date != "" & end_date != ""){
+    paste0(url_sleep, sprintf("%s/date/%s/%s.json", resource_path, format_date(base_date), format_date(end_date)))
+  }
   response <- get(url, token)
   data <- convert_content_to_r_object(response)
   data[[1]]
