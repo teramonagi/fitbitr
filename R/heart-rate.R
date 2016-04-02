@@ -7,14 +7,18 @@ url_heart <- "https://api.fitbit.com/1/user/-/activities/heart/"
 #' If you specify earlier dates in the request, the response will retrieve only data since the user's join date or the first log entry date for the requested collection.
 #'
 #' @param token An OAuth 2.0 token
-#' @param date	The end date of the period specified in the format yyyy-MM-dd or today.
+#' @param date	The end date of the period specified in the format "yyyy-MM-dd" or "today" as a string or Date object.
 #' @param period	The range for which data will be returned. Options are 1d, 7d, 30d, 1w, 1m.
-#' @param base_date	The range start date, in the format yyyy-MM-dd or today.
-#' @param end_date	The end date of the range.
+#' @param base_date	The range start date in the format "yyyy-MM-dd" or "today" as a string or Date object.
+#' @param end_date	The end date of the range in the format "yyyy-MM-dd" or "today" as a string or Date object.
 #' @export
 get_heart_rate_time_series <- function(token, date="", period="", base_date="", end_date="")
 {
-  url <- paste0(url_heart, sprintf("date/%s/%s.json", format_date(date), period))
+  url <- if(date != "" && period != ""){
+    paste0(url_heart, sprintf("date/%s/%s.json", format_date(date), period))
+  } else if(base_date != "" & end_date != ""){
+    paste0(url_heart, sprintf("date/%s/%s.json", format_date(base_date), format_date(end_date)))
+  }
   response <- get(url, token)
   data <- convert_content_to_r_object(response)$'activities-heart'
   date <- as.Date(data$dateTime)

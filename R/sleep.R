@@ -13,7 +13,7 @@ url_sleep <- paste0(url_api, "sleep/")
 #' Also, values for minuteData can be 1 ("asleep"), 2 ("awake"), or 3 ("really awake").
 #'
 #' @param token An OAuth 2.0 token
-#' @param date	The date of records to be returned. In the format yyyy-MM-dd(character) or Date object.
+#' @param date	The date of records to be returned in the format "yyyy-MM-dd" or "today" as a string or Date object.
 #' @return a list of "sleep" and "summary" data.frame. "sleep" data.frame contains time series information of sleep. "summary" data.frame contains the summary of each "sleep" information.
 #' @export
 get_sleep_logs <- function(token, date)
@@ -86,10 +86,10 @@ sleep_goal <- function(token, minDuration=NULL)
 #'
 #' @param token An OAuth 2.0 token
 #' @param resource_path	The resource path; see the Resource Path Options below for a list of options.
-#' @param date	The end date of the period specified in the format yyyy-MM-dd or today.
+#' @param date	The end date of the period specified in the format "yyyy-MM-dd" or "today" as a string or Date object.
 #' @param period	The range for which data will be returned. Options are 1d, 7d, 30d, 1w, 1m, 3m, 6m, 1y, or max.
-#' @param base_date	The range start date, in the format yyyy-MM-dd or today.
-#' @param end_date	The end date of the range.
+#' @param base_date	The range start date in the format "yyyy-MM-dd" or "today" as a string or Date object.
+#' @param end_date	The end date of the range in the format "yyyy-MM-dd" or "today" as a string or Date object.
 #' @details Resource Path Options in more detail.
 #' \itemize{
 #'   \item{startTime}
@@ -129,7 +129,7 @@ get_sleep_time_series <- function(token, resource_path, date="", period="", base
 log_sleep <- function(token, startTime, duration, date)
 {
   url <- paste0(url_api, "sleep.json")
-  body <- list(startTime=startTime, duration=10^3*60*duration, date=format_date("2010-01-05"))
+  body <- list(startTime=startTime, duration=10^3*60*duration, date=format_date(date))
   response <- post(url, token, body=body)
   as.data.frame(data.table::rbindlist(convert_content_to_r_object(response)))
 }
