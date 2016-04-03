@@ -12,6 +12,4 @@ after_failure:
   - ./travis-tool.sh dump_logs
 
 notifications:
-  email:
-  on_success: change
-  on_failure: change
+  slack: r-wakalang:cKhCBf6HydYgKKnlCl6ZCEAJ
