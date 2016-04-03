@@ -1,4 +1,4 @@
-# fitbitr [![CRAN Version](http://www.r-pkg.org/badges/version/fitbitr)](http://cran.rstudio.com/web/packages/fitbitr) ![](http://cranlogs.r-pkg.org/badges/grand-total/fitbitr)
+# fitbitr [![CRAN Version](http://www.r-pkg.org/badges/version/fitbitr)](http://cran.rstudio.com/web/packages/fitbitr) ![](http://cranlogs.r-pkg.org/badges/grand-total/fitbitr) ![](https://travis-ci.org/teramonagi/fitbitr.svg?branch=master)
 
 fitbitr package allows users to interact with Fitbit data in R using Fitbit API.
 This package allows for most of the read and write methods that you might want to use. 

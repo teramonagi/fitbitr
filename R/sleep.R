@@ -23,10 +23,10 @@ get_sleep_logs <- function(token, date)
   response <- get(url, token)
   data <- convert_content_to_r_object(response)
   data$sleep$dateOfSleep <- as.Date(data$sleep$dateOfSleep)
-  data$sleep$startTime   <- format_date_time(data$sleep$startTime)
+  data$sleep$startTime   <- to_posixct(data$sleep$startTime)
   data$sleep$minuteData  <- lapply(data$sleep$minuteData, function(x){
     x$value <- as.numeric(x$value)
-    date_time <- format_time_string(date, x$dateTime)
+    date_time <- to_posixct(date, x$dateTime)
     is_date_change <- Reduce(function(x, y){x || y!=1}, diff(date_time), FALSE, accumulate=TRUE)
     x$dateTime <- date_time + lubridate::days(1)*is_date_change
     x
@@ -75,7 +75,7 @@ sleep_goal <- function(token, minDuration=NULL)
   }
 
   result <- as.data.frame(data.table::rbindlist(convert_content_to_r_object(response)))
-  result$updatedOn <- format_date_time(result$updatedOn)
+  result$updatedOn <- to_posixct(result$updatedOn)
   result
 }
 

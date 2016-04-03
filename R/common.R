@@ -26,11 +26,16 @@ format_date <- function(date){
   }
 }
 
-format_date_time <- function(date_time)
+to_posixct <- function(...)
 {
-  as.POSIXct(strptime(str_replace(date_time, "\\.\\d+", ""), "%Y-%m-%dT%H:%M:%S"))
-}
-format_time_string <- function(date, time)
-{
-  as.POSIXct(strptime(paste0(date, " ", time), "%Y-%m-%d %H:%M:%S"))
+  args <- unlist(list(...))
+  if(length(args)==1){
+    #regard as date_time
+    as.POSIXct(strptime(str_replace(args[1], "\\.\\d+", ""), "%Y-%m-%dT%H:%M:%S"))
+  } else if(length(args)==2){
+    #regars as date, time
+    as.POSIXct(strptime(paste0(args[1], " ", args[2]), "%Y-%m-%d %H:%M:%S"))
+  } else{
+    stop("Error")
+  }
 }
