@@ -63,6 +63,6 @@ get_heart_rate_intraday_time_series <- function(token, date, detail_level, start
   response <- get(url, token)
   data <- convert_content_to_r_object(response)
   df <- data$'activities-heart-intraday'$dataset
-  df$time <- format_time_string(date, df$time)
+  df$time <- to_posixct(date, df$time)
   df
 }
