@@ -71,7 +71,7 @@ update_sleep_goal(token, 380)
 
 #Get Sleep Time Series
 get_sleep_time_series(token, "timeInBed", date="2016-04-02", period="7d")
-get_sleep_time_series(token, "minutesToFallAsleep", base_date="2016-03-30", end_date="today")
+get_sleep_time_series(token, "efficiency", base_date="2016-03-30", end_date="today")
 
 #Log sleep
 log_sleep(token, "22:00", 180, date="2010-02-17")
