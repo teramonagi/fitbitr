@@ -13,6 +13,11 @@ post <- function(url, token, body)
   httr::POST(url=url, body=body, httr::config(token = token))
 }
 
+delete <- function(url, token)
+{
+  httr::DELETE(url=url, httr::config(token = token))
+}
+
 convert_content_to_r_object <- function(response)
 {
   jsonlite::fromJSON(httr::content(response, as = "text"))

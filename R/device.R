@@ -102,5 +102,6 @@ update_alarm <- function(token, tracker_id, alarm_id, time, weekday, enabled=TRU
 delete_alarm <- function(token, tracker_id, alarm_id)
 {
   url <- paste0(url_api, sprintf("devices/tracker/%s/alarms/%s.json", tracker_id, alarm_id))
-  httr::DELETE(url=url, httr::config(token = token))
+  response <- delete(url, token)
+  convert_content_to_r_object(response)[[1]]
 }
