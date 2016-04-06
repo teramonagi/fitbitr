@@ -21,6 +21,31 @@ devtools::install_github("teramonagi/fitbitr")
 ### Devices 
 - https://dev.fitbit.com/docs/devices/
 
+```R
+#Load library
+library("fitbitr")
+
+#Get token
+token <- oauth_token()
+
+#Get deice information you registerd
+get_devices(token)
+
+#Add alarms
+tracker_id <- get_devices(token)$id[1]
+add_alarm(token, tracker_id, "07:15-08:00", "MONDAY")
+alarm <- get_alarms(token, tracker_id)
+
+#Update the content alarm
+alarm_id <- tail(alarm, 1)$alarmId
+update_alarm(token, tracker_id, alarm_id, "02:15-03:00", "FRIDAY")
+get_alarms(token, tracker_id)
+
+#Delete alarm you registered here
+delete_alarm(token, tracker_id, alarm_id)
+get_alarms(token, tracker_id)
+```
+
 ### Food Logging
 - https://dev.fitbit.com/docs/food-logging/
 
