@@ -27,6 +27,27 @@ The priority of these keys to
 ### Body & Weight
 - https://dev.fitbit.com/docs/body/
 
+```R
+#Load library
+library("fitbitr")
+
+#Get token
+token <- oauth_token()
+
+# Set a date for example
+date1 <- "2016-04-01"
+date2 <- "2016-04-02"
+
+# Log body fat
+log_body_fat(token, 20.2, date1)
+log_body_fat(token, 18.2, date2)
+
+# Get body fat logs
+get_body_fat_logs(token, date=date2, period="7d")
+get_body_fat_logs(token, base_date=date1, end_date="today")
+
+```
+
 ### Devices 
 - https://dev.fitbit.com/docs/devices/
 
