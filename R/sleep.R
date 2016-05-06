@@ -145,5 +145,5 @@ log_sleep <- function(token, startTime, duration, date)
 delete_sleep_log <- function(token, log_id)
 {
   url <- paste0(url_sleep, sprintf("%s.json", log_id))
-  httr::DELETE(url=url, httr::config(token = token))
+  delete(url, token)
 }
