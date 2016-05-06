@@ -11,10 +11,16 @@ oauth_token <- function(key=NULL, secret=NULL){
     stop("Both of key and secret are given.")
   }
 
-  #Client type setting.
+  #Load key automatically from global or environmnt variable
   if(is.null(key) && is.null(secret)){
-    key    <- "227QG2"
-    secret <- "fd2090a1c5cc11194210bd4bd113b7d0"
+    if(exists("FITBIT_KEY") && exists("FITBIT_SECRET")){
+      key    <- FITBIT_KEY
+      secret <- FITBIT_SECRET
+    }else{
+      #Client type setting.
+      key    <- "227QG2"
+      secret <- "fd2090a1c5cc11194210bd4bd113b7d0"
+    }
   }
 
   request <- "https://api.fitbit.com/oauth2/token"
