@@ -10,6 +10,15 @@ fitbitr isn't available from CRAN yet, but you can get it from github with:
 devtools::install_github("teramonagi/fitbitr")
 ```
 
+## API key
+If you set the following variables as a global variable, this package use these values for API key.
+```R
+# As a global variable
+FITBIT_KEY    <- "XXXX"
+FITBIT_SECRET <- "XXXXXXXXXXXXXXXXXX"
+```
+
+The priority of these keys to 
 ## Example
 
 ### Activity
@@ -67,9 +76,10 @@ date <- "2016-04-01"
 # Get heart rate time series
 get_heart_rate_time_series(token, date=date, period="7d")
 get_heart_rate_time_series(token, base_date=date, end_date="today")
-
+  
 # Get intraday heart rate time series
-df <- get_heart_rate_intraday_time_series(token, date="2016-04-02", detail_level="1min")
+df <- get_heart_rate_intraday_time_series(token, date="2016-05-05", detail_level="1min")
+df <- get_heart_rate_intraday_time_series(token, date="2016-05-05", detail_level="1sec")
 ggplot(df, aes(x=time, y=value)) + geom_line()
 ```
 
