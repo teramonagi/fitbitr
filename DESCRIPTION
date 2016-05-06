@@ -18,3 +18,11 @@ Imports:
 Suggests:
     testthat
 RoxygenNote: 5.0.1
+Collate:
+    'fitbitr.R'
+    'activity.R'
+    'common.R'
+    'device.R'
+    'heart-rate.R'
+    'sleep.R'
+    'token.R'

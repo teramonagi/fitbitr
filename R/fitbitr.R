@@ -5,4 +5,5 @@
 #' @name fitbitr
 #' @docType package
 #' @import stringr lubridate dplyr tidyr httr jsonlite data.table
-url_api   <- "https://api.fitbit.com/1/user/-/"
+url_base <- "https://api.fitbit.com/1/"
+url_api  <- paste0(url_base, "user/-/")
