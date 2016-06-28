@@ -38,8 +38,12 @@ to_posixct <- function(...)
     #regard as date_time
     as.POSIXct(strptime(str_replace(args[[1]], "\\.\\d+", ""), "%Y-%m-%dT%H:%M:%S"))
   } else if(length(args)==2){
+    date <- as.Date(args[[1]])
+    time <- args[[2]]
+    diff_hour <- diff(as.numeric(str_sub(time, 1, 2)))
+    date <- date + Reduce(function(x, y){(y < 0) + x}, diff_hour, 0, accumulate=TRUE)
     #regars as date, time
-    as.POSIXct(strptime(paste0(args[[1]], " ", args[[2]]), "%Y-%m-%d %H:%M:%S"))
+    as.POSIXct(strptime(paste0(date, " ", time), "%Y-%m-%d %H:%M:%S"))
   } else{
     stop("Error")
   }

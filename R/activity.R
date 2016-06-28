@@ -84,12 +84,19 @@ get_activity_time_series <- function(token, resource_path, date="", period="", b
 #' @param start_time	The start of the period, in the format HH:mm. Optional.
 #' @param end_time	The end of the period, in the format HH:mm. Optional.
 #' @export
-get_activity_intraday_time_series <- function(token, resource_path, date, detail_level, start_time, end_time)
+get_activity_intraday_time_series <- function(token, resource_path, date, detail_level="15min", start_time=NULL, end_time=NULL)
 {
   date <- format_date(date)
-  url <- paste0(url_activity, sprintf("%s/date/%s/%s/%s.json", resource_path, date, date, detail_level))
+  date2 <- as.Date(date) + 1
+  url <- if(!is.null(start_time) && !is.null(end_time)){
+    paste0(url_activity, sprintf("%s/date/%s/%s/%s/time/%s/%s.json", resource_path, date, date2, detail_level, start_time, end_time))
+  } else{
+    paste0(url_activity, sprintf("%s/date/%s/%s/%s.json", resource_path, date, date2, detail_level))
+  }
   response <- get(url, token)
-  convert_content_to_r_object(response)
+  df <- convert_content_to_r_object(response)[[2]][[1]]
+  df$time <- to_posixct(date, df$time)
+  df
 }
 
 #' Log Activity

@@ -24,6 +24,32 @@ The priority of these keys to
 ### Activity
 - https://dev.fitbit.com/docs/activity/
 
+```
+library("fitbitr")
+FITBIT_KEY    <- "227PR5"
+FITBIT_SECRET <- "fd2e9b27a2140139fa24dbb160a9d5d7"
+# Get token
+token <- oauth_token()
+date <- "2016-06-01"
+df <- get_activity_intraday_time_series(token, "steps", date, detail_level="15min", start_time="04:00", end_time="03:00")
+
+library("lubridate")
+library("dplyr")
+result <- df %>% group_by(hour=ifelse(hour(time) >= 4, hour(time), hour(time) + 24)) %>% summarise(steps = sum(value))
+result <- bind_rows(lapply(seq(Sys.Date()-90, Sys.Date(), by = 1), getStepHourlydata, token = fitbit_token))
+result_wide <- result %>% mutate(hour = paste0("H", formatC(hour, width = 2, flag = "0"))) %>% spread(hour, steps)
+# LDA modeling
+result_stm <- as.simple_triplet_matrix(as.data.frame(result_wide[,-1]))
+model_lda <- LDA(result_stm, 5)
+inf_lda <- posterior(model_lda, result_stm)
+
+tbl_topics <- table(topics(model_lda))
+
+result_lda_group <- data.frame(inf_lda$terms) %>% mutate(group = paste0("Group ",1:5, " (n = ", tbl_topics, ")")) %>% gather(var, value, -group) %>% mutate(hour = extract_numeric(var))
+th_value <- 0.001
+result_lda_group$value <- ifelse(result_lda_group$value < th_value, 0, result_lda_group$value)
+result_daily$group <- factor(topics(model_lda), levels = 5:1)
+```
 ### Body & Weight
 - https://dev.fitbit.com/docs/body/
 
@@ -31,26 +57,26 @@ The priority of these keys to
 - https://dev.fitbit.com/docs/devices/
 
 ```R
-#Load library
+# Load library
 library("fitbitr")
 
-#Get token
+# Get token
 token <- oauth_token()
 
-#Get deice information you registerd
+# Get deice information you registerd
 get_devices(token)
 
-#Add alarms
+# Add alarms
 tracker_id <- get_devices(token)$id[1]
 add_alarm(token, tracker_id, "07:15-08:00", "MONDAY")
 alarm <- get_alarms(token, tracker_id)
 
-#Update the content alarm
+# Update the content alarm
 alarm_id <- tail(alarm, 1)$alarmId
 update_alarm(token, tracker_id, alarm_id, "02:15-03:00", "FRIDAY")
 get_alarms(token, tracker_id)
 
-#Delete alarm you registered here
+# Delete alarm you registered here
 delete_alarm(token, tracker_id, alarm_id)
 get_alarms(token, tracker_id)
 ```
