@@ -93,10 +93,14 @@ get_activity_intraday_time_series <- function(token, resource_path, date, detail
   } else{
     paste0(url_activity, sprintf("%s/date/%s/%s/%s.json", resource_path, date, date2, detail_level))
   }
-  response <- get(url, token)
-  df <- convert_content_to_r_object(response)[[2]][[1]]
-  df$time <- to_posixct(date, df$time)
-  df
+  response <- convert_content_to_r_object(get(url, token))
+  if(response$success){
+    df <- response[[2]][[1]]
+    df$time <- to_posixct(date, df$time)
+    df
+  } else{
+    stop(response$errors$message)
+  }
 }
 
 #' Log Activity
