@@ -87,14 +87,14 @@ get_activity_time_series <- function(token, resource_path, date="", period="", b
 get_activity_intraday_time_series <- function(token, resource_path, date, detail_level="15min", start_time=NULL, end_time=NULL)
 {
   date <- format_date(date)
-  date2 <- as.Date(date) + 1
   url <- if(!is.null(start_time) && !is.null(end_time)){
+    date2 <- as.Date(date) + 1
     paste0(url_activity, sprintf("%s/date/%s/%s/%s/time/%s/%s.json", resource_path, date, date2, detail_level, start_time, end_time))
   } else{
-    paste0(url_activity, sprintf("%s/date/%s/%s/%s.json", resource_path, date, date2, detail_level))
+    paste0(url_activity, sprintf("%s/date/%s/1d/%s.json", resource_path, date, detail_level))
   }
   response <- convert_content_to_r_object(get(url, token))
-  if(response$success){
+  if("activities-steps-intraday" %in% names(response)){
     df <- response[[2]][[1]]
     df$time <- to_posixct(date, df$time)
     df

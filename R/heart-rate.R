@@ -61,11 +61,11 @@ get_heart_rate_time_series <- function(token, date="", period="", base_date="", 
 get_heart_rate_intraday_time_series <- function(token, date="", detail_level="1min", start_time=NULL, end_time=NULL)
 {
   date <- format_date(date)
-  date2 <- as.Date(date) + 1
   url <- if(!is.null(start_time) && !is.null(end_time)){
-      paste0(url_heart, sprintf("date/%s/%s/%s/time/%s/%s.json", date, date2, detail_level, start_time, end_time))
-    } else{
-      paste0(url_heart, sprintf("date/%s/%s/%s.json",            date, date2, detail_level))
+    date2 <- as.Date(date) + 1
+    paste0(url_heart, sprintf("date/%s/%s/%s/time/%s/%s.json", date, date2, detail_level, start_time, end_time))
+  } else{
+    paste0(url_heart, sprintf("date/%s/1d/%s.json", date, detail_level))
   }
   response <- get(url, token)
   data <- convert_content_to_r_object(response)
