@@ -28,8 +28,13 @@ The priority of these keys to
 # Get token
 token <- oauth_token()
 date <- "2016-06-01"
-df <- get_activity_intraday_time_series(token, "steps", date, detail_level="15min", start_time="04:00", end_time="03:00")
 
+# Get activity intraday time series
+# You have to use a personal key and secret.
+df <- get_activity_intraday_time_series(token, "steps", date, detail_level="1min", start_time="04:00", end_time="03:00")
+ggplot(df, aes(x=time, y=value)) + geom_line()
+df <- get_activity_intraday_time_series(token, "steps", date, detail_level="1min")
+ggplot(df, aes(x=time, y=value)) + geom_line()
 ```
 ### Body & Weight
 - https://dev.fitbit.com/docs/body/
