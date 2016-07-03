@@ -24,6 +24,18 @@ The priority of these keys to
 ### Activity
 - https://dev.fitbit.com/docs/activity/
 
+```
+# Get token
+token <- oauth_token()
+date <- "2016-06-01"
+
+# Get activity intraday time series
+# You have to use a personal key and secret.
+df <- get_activity_intraday_time_series(token, "steps", date, detail_level="1min", start_time="04:00", end_time="03:00")
+ggplot(df, aes(x=time, y=value)) + geom_line()
+df <- get_activity_intraday_time_series(token, "steps", date, detail_level="1min")
+ggplot(df, aes(x=time, y=value)) + geom_line()
+```
 ### Body & Weight
 - https://dev.fitbit.com/docs/body/
 
@@ -31,26 +43,26 @@ The priority of these keys to
 - https://dev.fitbit.com/docs/devices/
 
 ```R
-#Load library
+# Load library
 library("fitbitr")
 
-#Get token
+# Get token
 token <- oauth_token()
 
-#Get deice information you registerd
+# Get deice information you registerd
 get_devices(token)
 
-#Add alarms
+# Add alarms
 tracker_id <- get_devices(token)$id[1]
 add_alarm(token, tracker_id, "07:15-08:00", "MONDAY")
 alarm <- get_alarms(token, tracker_id)
 
-#Update the content alarm
+# Update the content alarm
 alarm_id <- tail(alarm, 1)$alarmId
 update_alarm(token, tracker_id, alarm_id, "02:15-03:00", "FRIDAY")
 get_alarms(token, tracker_id)
 
-#Delete alarm you registered here
+# Delete alarm you registered here
 delete_alarm(token, tracker_id, alarm_id)
 get_alarms(token, tracker_id)
 ```
