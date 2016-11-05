@@ -1,5 +1,4 @@
-#' @include fitbitr.R
-#Constants
+# Constants
 url_body <- paste0(url_api, "body/")
 
 #' Get Body Fat Logs
