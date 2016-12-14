@@ -20,10 +20,10 @@ Suggests:
 RoxygenNote: 5.0.1
 Collate:
     'fitbitr.R'
-    'common.R'
     'activity.R'
+    'body.R'
+    'common.R'
     'device.R'
     'heart-rate.R'
     'sleep.R'
     'token.R'
-    'body.R'

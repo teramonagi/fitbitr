@@ -22,11 +22,6 @@ oauth_token <- function(key=NULL, secret=NULL){
       secret <- "fd2090a1c5cc11194210bd4bd113b7d0"
     }
   }
-  # We have to the last backslash(/) from the callback URL because fitbit API does not look like allowing it.
-  # How to change the callback function is based on: https://github.com/hadley/httr/issues/43#issuecomment-20104231
-  assignInNamespace("oauth_callback", pos = "package:httr", function() {
-    "http://localhost:1410"
-  })
   request <- "https://api.fitbit.com/oauth2/token"
   authorize <- "https://www.fitbit.com/oauth2/authorize"
   access <- "https://api.fitbit.com/oauth2/token"
