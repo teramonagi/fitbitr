@@ -14,8 +14,9 @@ devtools::install_github("teramonagi/fitbitr")
 If you set the following variables as a global variable, this package use these values for API key.
 ```R
 # As a global variable
-FITBIT_KEY    <- "XXXX"
-FITBIT_SECRET <- "XXXXXXXXXXXXXXXXXX"
+FITBIT_KEY    <- "<your-fitbit-key>"
+FITBIT_SECRET <- "<your-firbit-secret>"
+FITBIT_CALLBACK <- "<your-fitbit-callback>" # May be "http://localhost:1410"
 ```
 
 The priority of these keys to 

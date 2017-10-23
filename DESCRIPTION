@@ -14,7 +14,9 @@ Imports:
     tidyr,
     httr,
     jsonlite,
-    data.table
+    data.table,
+    httpuv,
+    base64enc
 Suggests:
     testthat
 RoxygenNote: 5.0.1
