@@ -16,7 +16,7 @@ Imports:
     jsonlite,
     data.table,
     httpuv,
-    base64enc
+    RCurl
 Suggests:
     testthat
 RoxygenNote: 5.0.1

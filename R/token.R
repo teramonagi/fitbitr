@@ -27,16 +27,16 @@ oauth_token <- function(key=NULL, secret=NULL, callback=NULL){
   #Load redirect URI from global or environment variable
   if(is.null(callback)){
     if(exists("FITBIT_CALLBACK")){
-        callback <- FITBIT_CALLBACK
+      callback <- FITBIT_CALLBACK
     } else{
-      callback <- "http://localhost:1410"
+      callback <- "http://localhost:1410/"
     }
   }
 
   # We need to create header, see the following links in details.
   # https://community.fitbit.com/t5/Web-API-Development/Invalid-authorization-header-format/td-p/1363901
   # https://community.fitbit.com/t5/Web-API-Development/Trouble-with-OAuth-2-0-Tutorial/m-p/1617571#M6583
-  header <- httr::add_headers(Authorization=paste0("Basic ", base64encode(charToRaw(paste0(key, ":", secret)))))
+  header <- httr::add_headers(Authorization=paste0("Basic ", RCurl::base64Encode(charToRaw(paste0(key, ":", secret)))))
   content_type <- httr::content_type("application/x-www-form-urlencoded")
 
   # What types of data do we allow to access -> as possible as we can
