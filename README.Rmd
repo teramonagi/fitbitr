@@ -9,16 +9,20 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
   fig.path = "man/figures/README-",
+  fig.width=8,
+  fig.height=4,
   cache=TRUE
 )
 ```
 
 # fitbitr 
 
+![](https://travis-ci.org/teramonagi/fitbitr.svg?branch=master)
 [![CRAN Version](http://www.r-pkg.org/badges/version/fitbitr)](http://cran.rstudio.com/web/packages/fitbitr) 
-![](http://cranlogs.r-pkg.org/badges/grand-total/fitbitr) ![](https://travis-ci.org/teramonagi/fitbitr.svg?branch=master)
+![](http://cranlogs.r-pkg.org/badges/grand-total/fitbitr)
 
 `fitbitr` package allows users to interact with Fitbit data in R using Fitbit API.
+
 This package allows for most of the read and write methods that you might want to use. 
 
 ## Installation
@@ -28,105 +32,79 @@ fitbitr isn't available from CRAN yet, but you can get it from github with:
 devtools::install_github("teramonagi/fitbitr")
 ```
 
-## API key
-If you set the following variables as a global variable, 
-this package use these values for API key.
+## Preparation  
+### API key
+To get your own token (API key), you have to register your own application in [here](https://dev.fitbit.com/apps/new).
+For your reference, we share our setting:
 
+<div style="width:300px;">
+![](man/figures/register_app.png)
+</div>
+
+After registration, you can get your own `FITBIT_KEY` and `FITBIT_SECRET` (referred to as **OAuth 2.0 Client ID** and **Client Secret** in the next figure).
+
+<div style="width: 50%;">
+![](man/figures/manage_my_apps.png)
+</div>
+
+If you set the following variables as a global variable, this package use these values for API key.
 ```{r, eval=FALSE}
 # As a global variable
 FITBIT_KEY    <- "<your-fitbit-key>"
 FITBIT_SECRET <- "<your-firbit-secret>"
-FITBIT_CALLBACK <- "<your-fitbit-callback>" #  if you want, Default: "http://localhost:1410/"
+# If you want, Default: "http://localhost:1410/"
+# FITBIT_CALLBACK <- "<your-fitbit-callback>" 
 ```
 
-### Preparetion 
-Before expaining how to use this library, we load libraried and get token.
+### Load libraries
 ```{r}
-#Load library
-library("ggplot2")
+library("ggplot2") # for visualization in this document
 library("fitbitr")
 ```
 
-```{r, echo=FALSE}
-#Adhoc ...
-#saveRDS(token, "temp_token")
-token <- readRDS("temp_token")
-```
-
+### Get Fitbit API token
+You can get your Fitbit toekn using `fitbitr::oauth_token()`:
 ```{r, eval=FALSE}
 # Get token
 token <- fitbitr::oauth_token()
 ```
-```{r, eval=FALSE}
+This function open a web browser autmatically and return Fitbit token.
 
-## Example
+```{r, echo=FALSE}
+#Adhoc to build this document on my PC...
+#saveRDS(token, "temp_token")
+token <- readRDS("temp_token")
+```
 
+## How to use
 ### Activity
-- https://dev.fitbit.com/docs/activity/
-
 ```{r}
+# Example date
 date <- "2016-06-01"
 
 # Get activity intraday time series
-# You have to use a personal key and secret.
-df <- get_activity_intraday_time_series(token, "steps", date, detail_level="1min", start_time="04:00", end_time="03:00")
-ggplot(df, aes(x=time, y=value)) + geom_line()
-df <- get_activity_intraday_time_series(token, "steps", date, detail_level="1min")
+# You have to use a **personal** key and secret.
+df <- get_activity_intraday_time_series(token, "steps", date, detail_level="15min")
 ggplot(df, aes(x=time, y=value)) + geom_line()
 ```
 
-### Body & Weight
-- https://dev.fitbit.com/docs/body/
-
-### Devices 
-- https://dev.fitbit.com/docs/devices/
-
-```{r}
-# Get deice information you registerd
-get_devices(token)
-
-# Add alarms
-tracker_id <- get_devices(token)$id[1]
-add_alarm(token, tracker_id, "07:15-08:00", "MONDAY")
-alarm <- get_alarms(token, tracker_id)
-alarm
-
-# Update the content alarm
-alarm_id <- tail(alarm, 1)$alarmId
-update_alarm(token, tracker_id, alarm_id, "02:15-03:00", "FRIDAY")
-get_alarms(token, tracker_id)
-
-# Delete alarm you registered here
-delete_alarm(token, tracker_id, alarm_id)
-get_alarms(token, tracker_id)
-```
-
-### Food Logging
-
-- https://dev.fitbit.com/docs/food-logging/
-
-### Friends
-- https://dev.fitbit.com/docs/friends/
+You can find more details in [here](https://dev.fitbit.com/docs/activity/)
 
 ### Heart Rate
-- https://dev.fitbit.com/docs/heart-rate/
-
 ```{r}
-
 # Set a date for example
 date <- "2016-04-01"
-
 # Get heart rate time series
-get_heart_rate_time_series(token, date=date, period="7d")
-
+df <- get_heart_rate_time_series(token, date=date, period="7d")
+ggplot(df, aes(x=date, y=peak_max)) + geom_line()
 # Get intraday heart rate time series
-df <- get_heart_rate_intraday_time_series(token, date="2016-05-05", detail_level="1min")
+df <- get_heart_rate_intraday_time_series(token, date="2016-05-05", detail_level="15min")
 ggplot(df, aes(x=time, y=value)) + geom_line()
 ```
 
-### Sleep
-- https://dev.fitbit.com/docs/sleep/
+You can find more details [here](https://dev.fitbit.com/docs/heart-rate/).
 
+### Sleep
 ```{r}
 # Get Sleep Logs(date is character or Date)
 x <- get_sleep_logs(token, "2016-03-30")
@@ -150,11 +128,36 @@ print(head(log))
 delete_sleep_log(token, log$logId)
 ```
 
-### Subscriptions
-- https://dev.fitbit.com/docs/subscriptions/
+You can find more details [here](https://dev.fitbit.com/docs/sleep/).
 
-### User
-- https://dev.fitbit.com/docs/user/
+### Devices 
+```{r}
+# Get deice information you registerd
+get_devices(token)
+```
+
+```{r}
+# Add alarms
+tracker_id <- get_devices(token)$id[1]
+add_alarm(token, tracker_id, "07:15-08:00", "MONDAY")
+alarm <- get_alarms(token, tracker_id)
+alarm
+```
+
+```{r}
+# Update the content alarm
+alarm_id <- tail(alarm, 1)$alarmId
+update_alarm(token, tracker_id, alarm_id, "02:15-03:00", "FRIDAY")
+get_alarms(token, tracker_id)
+```
+
+```{r}
+# Delete alarm you registered here
+delete_alarm(token, tracker_id, alarm_id)
+get_alarms(token, tracker_id)
+```
+
+You can find more details [here](https://dev.fitbit.com/docs/devices/).
 
 ## Contributing
 - Fork it ( https://github.com/teramonagi/fitbitr/fork )
@@ -166,3 +169,20 @@ delete_sleep_log(token, log$logId)
 ## Acknowledgements
 
 Many thanks to Mr.dichika since This package is based on the extension of [myFitbit package](https://github.com/dichika/myFitbit).
+
+<!--
+Future implementation
+### Food Logging
+You can find more details [here](https://dev.fitbit.com/docs/food-logging/).
+### Friends
+You can find more details [here](https://dev.fitbit.com/docs/friends/).
+
+### Subscriptions
+- https://dev.fitbit.com/docs/subscriptions/
+
+### User
+- https://dev.fitbit.com/docs/user/
+### Body & Weight
+You can find more details in [here](https://dev.fitbit.com/docs/body/)
+
+-->

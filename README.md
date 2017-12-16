@@ -3,9 +3,11 @@
 fitbitr
 =======
 
-[![CRAN Version](http://www.r-pkg.org/badges/version/fitbitr)](http://cran.rstudio.com/web/packages/fitbitr) ![](http://cranlogs.r-pkg.org/badges/grand-total/fitbitr) ![](https://travis-ci.org/teramonagi/fitbitr.svg?branch=master)
+![](https://travis-ci.org/teramonagi/fitbitr.svg?branch=master) [![CRAN Version](http://www.r-pkg.org/badges/version/fitbitr)](http://cran.rstudio.com/web/packages/fitbitr) ![](http://cranlogs.r-pkg.org/badges/grand-total/fitbitr)
 
-`fitbitr` package allows users to interact with Fitbit data in R using Fitbit API. This package allows for most of the read and write methods that you might want to use.
+`fitbitr` package allows users to interact with Fitbit data in R using Fitbit API.
+
+This package allows for most of the read and write methods that you might want to use.
 
 Installation
 ------------
@@ -17,8 +19,18 @@ fitbitr isn't available from CRAN yet, but you can get it from github with:
 devtools::install_github("teramonagi/fitbitr")
 ```
 
-API key
--------
+Preparation
+-----------
+
+### API key
+
+To get your own token (API key), you have to register your own application in [here](https://dev.fitbit.com/apps/new). For your reference, we share our setting:
+
+![](man/figures/register_app.png)
+
+After registration, you can get your own `FITBIT_KEY` and `FITBIT_SECRET` (referred to as **OAuth 2.0 Client ID** and **Client Secret** in the next figure).
+
+![](man/figures/manage_my_apps.png)
 
 If you set the following variables as a global variable, this package use these values for API key.
 
@@ -26,165 +38,76 @@ If you set the following variables as a global variable, this package use these 
 # As a global variable
 FITBIT_KEY    <- "<your-fitbit-key>"
 FITBIT_SECRET <- "<your-firbit-secret>"
-FITBIT_CALLBACK <- "<your-fitbit-callback>" #  if you want, Default: "http://localhost:1410/"
+# If you want, Default: "http://localhost:1410/"
+# FITBIT_CALLBACK <- "<your-fitbit-callback>" 
 ```
 
-### Preparetion
-
-Before expaining how to use this library, we load libraried and get token.
+### Load libraries
 
 ``` r
-#Load library
-library("ggplot2")
+library("ggplot2") # for visualization in this document
 library("fitbitr")
 ```
+
+### Get Fitbit API token
+
+You can get your Fitbit toekn using `fitbitr::oauth_token()`:
 
 ``` r
 # Get token
 token <- fitbitr::oauth_token()
 ```
 
-``` r
+This function open a web browser autmatically and return Fitbit token.
 
-## Example
+How to use
+----------
 
 ### Activity
-- https://dev.fitbit.com/docs/activity/
-```
 
 ``` r
+# Example date
 date <- "2016-06-01"
 
 # Get activity intraday time series
-# You have to use a personal key and secret.
-df <- get_activity_intraday_time_series(token, "steps", date, detail_level="1min", start_time="04:00", end_time="03:00")
+# You have to use a **personal** key and secret.
+df <- get_activity_intraday_time_series(token, "steps", date, detail_level="15min")
 ggplot(df, aes(x=time, y=value)) + geom_line()
+```
+
+![](man/figures/README-unnamed-chunk-7-1.png)
+
+You can find more details in [here](https://dev.fitbit.com/docs/activity/)
+
+### Heart Rate
+
+``` r
+# Set a date for example
+date <- "2016-04-01"
+
+# Get heart rate time series
+df <- get_heart_rate_time_series(token, date=date, period="7d")
+#> Warning in bind_rows_(x, .id): binding factor and character vector,
+#> coercing into character vector
+#> Warning in bind_rows_(x, .id): binding character and factor vector,
+#> coercing into character vector
+ggplot(df, aes(x=date, y=peak_max)) + geom_line()
 ```
 
 ![](man/figures/README-unnamed-chunk-8-1.png)
 
 ``` r
-df <- get_activity_intraday_time_series(token, "steps", date, detail_level="1min")
+
+# Get intraday heart rate time series
+df <- get_heart_rate_intraday_time_series(token, date="2016-05-05", detail_level="15min")
 ggplot(df, aes(x=time, y=value)) + geom_line()
 ```
 
 ![](man/figures/README-unnamed-chunk-8-2.png)
 
-### Body & Weight
-
--   <https://dev.fitbit.com/docs/body/>
-
-### Devices
-
--   <https://dev.fitbit.com/docs/devices/>
-
-``` r
-# Get deice information you registerd
-get_devices(token)
-#>   battery deviceVersion features        id        lastSyncTime
-#> 1  Medium       Alta HR     NULL 424040354 2017-11-28 15:12:39
-#>            mac    type
-#> 1 9F1F7466C3DA TRACKER
-
-# Add alarms
-tracker_id <- get_devices(token)$id[1]
-add_alarm(token, tracker_id, "07:15-08:00", "MONDAY")
-#>     alarmId deleted enabled recurring snoozeCount snoozeLength
-#> 1 557219795   FALSE    TRUE     FALSE           3            9
-#>   syncedToDevice        time    vibe weekDays
-#> 1          FALSE 00:15+09:00 DEFAULT
-alarm <- get_alarms(token, tracker_id)
-alarm
-#>     alarmId deleted enabled recurring snoozeCount snoozeLength
-#> 1 471178121   FALSE   FALSE      TRUE           3            9
-#> 2 557219795   FALSE    TRUE     FALSE           3            9
-#>   syncedToDevice        time    vibe
-#> 1           TRUE 05:03+09:00 DEFAULT
-#> 2          FALSE 00:15+09:00 DEFAULT
-#>                                       weekDays
-#> 1 MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY
-#> 2
-
-# Update the content alarm
-alarm_id <- tail(alarm, 1)$alarmId
-update_alarm(token, tracker_id, alarm_id, "02:15-03:00", "FRIDAY")
-#>     alarmId deleted enabled recurring snoozeCount snoozeLength
-#> 1 557219795   FALSE    TRUE     FALSE           9            3
-#>   syncedToDevice        time    vibe weekDays
-#> 1          FALSE 14:15+09:00 DEFAULT
-get_alarms(token, tracker_id)
-#>     alarmId deleted enabled recurring snoozeCount snoozeLength
-#> 1 471178121   FALSE   FALSE      TRUE           3            9
-#> 2 557219795   FALSE    TRUE     FALSE           9            3
-#>   syncedToDevice        time    vibe
-#> 1           TRUE 05:03+09:00 DEFAULT
-#> 2          FALSE 14:15+09:00 DEFAULT
-#>                                       weekDays
-#> 1 MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY
-#> 2
-
-# Delete alarm you registered here
-delete_alarm(token, tracker_id, alarm_id)
-#> Response [https://api.fitbit.com/1/user/-/devices/tracker/424040354/alarms/557219795.json]
-#>   Date: 2017-12-16 09:08
-#>   Status: 204
-#>   Content-Type: application/json;charset=UTF-8
-#> <EMPTY BODY>
-get_alarms(token, tracker_id)
-#>     alarmId deleted enabled recurring snoozeCount snoozeLength
-#> 1 471178121   FALSE   FALSE      TRUE           3            9
-#>   syncedToDevice        time    vibe
-#> 1           TRUE 05:03+09:00 DEFAULT
-#>                                       weekDays
-#> 1 MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY
-```
-
-### Food Logging
-
--   <https://dev.fitbit.com/docs/food-logging/>
-
-### Friends
-
--   <https://dev.fitbit.com/docs/friends/>
-
-### Heart Rate
-
--   <https://dev.fitbit.com/docs/heart-rate/>
-
-``` r
-
-# Set a date for example
-date <- "2016-04-01"
-
-# Get heart rate time series
-get_heart_rate_time_series(token, date=date, period="7d")
-#> Warning in bind_rows_(x, .id): binding factor and character vector,
-#> coercing into character vector
-#> Warning in bind_rows_(x, .id): binding character and factor vector,
-#> coercing into character vector
-#> # A tibble: 7 x 9
-#>         date cardio_max cardio_min fat_burn_max fat_burn_min
-#> *     <date>      <int>      <int>        <int>        <int>
-#> 1 2016-03-26        158        130          130           93
-#> 2 2016-03-27        158        130          130           93
-#> 3 2016-03-28        158        130          130           93
-#> 4 2016-03-29        158        130          130           93
-#> 5 2016-03-30        158        130          130           93
-#> 6 2016-03-31        158        130          130           93
-#> 7 2016-04-01        158        130          130           93
-#> # ... with 4 more variables: out_of_range_max <int>,
-#> #   out_of_range_min <int>, peak_max <int>, peak_min <int>
-
-# Get intraday heart rate time series
-df <- get_heart_rate_intraday_time_series(token, date="2016-05-05", detail_level="1min")
-ggplot(df, aes(x=time, y=value)) + geom_line()
-```
-
-![](man/figures/README-unnamed-chunk-10-1.png)
+You can find more details [here](https://dev.fitbit.com/docs/heart-rate/).
 
 ### Sleep
-
--   <https://dev.fitbit.com/docs/sleep/>
 
 ``` r
 # Get Sleep Logs(date is character or Date)
@@ -227,11 +150,11 @@ get_sleep_goal(token)
 #>   awakeRestlessPercentage flowId recommendedSleepGoal typicalDuration
 #> 1               0.5431424      0                  420             397
 #>   typicalWakeupTime minDuration           updatedOn
-#> 1             07:12         380 2017-12-16 08:54:53
+#> 1             07:12         380 2017-12-16 09:38:03
 #Update sleep goal
 update_sleep_goal(token, 380)
 #>   minDuration           updatedOn
-#> 1         380 2017-12-16 09:08:21
+#> 1         380 2017-12-16 10:50:32
 
 #Get Sleep Time Series
 get_sleep_time_series(token, "timeInBed", date="2016-04-02", period="7d")
@@ -258,12 +181,12 @@ print(head(log))
 #> 5          0             0               0  2010-04-19 10800000        100
 #> 6          0             0               0  2010-04-19 10800000        100
 #>                   endTime isMainSleep       logId minuteData.dateTime
-#> 1 2010-04-19T01:00:00.000       FALSE 16593620854            22:00:00
-#> 2 2010-04-19T01:00:00.000       FALSE 16593620854            22:01:00
-#> 3 2010-04-19T01:00:00.000       FALSE 16593620854            22:02:00
-#> 4 2010-04-19T01:00:00.000       FALSE 16593620854            22:03:00
-#> 5 2010-04-19T01:00:00.000       FALSE 16593620854            22:04:00
-#> 6 2010-04-19T01:00:00.000       FALSE 16593620854            22:05:00
+#> 1 2010-04-19T01:00:00.000       FALSE 16592604789            22:00:00
+#> 2 2010-04-19T01:00:00.000       FALSE 16592604789            22:01:00
+#> 3 2010-04-19T01:00:00.000       FALSE 16592604789            22:02:00
+#> 4 2010-04-19T01:00:00.000       FALSE 16592604789            22:03:00
+#> 5 2010-04-19T01:00:00.000       FALSE 16592604789            22:04:00
+#> 6 2010-04-19T01:00:00.000       FALSE 16592604789            22:05:00
 #>   minuteData.value minutesAfterWakeup minutesAsleep minutesAwake
 #> 1                1                  0           180            0
 #> 2                1                  0           180            0
@@ -290,13 +213,72 @@ print(head(log))
 delete_sleep_log(token, log$logId)
 ```
 
-### Subscriptions
+You can find more details [here](https://dev.fitbit.com/docs/sleep/).
 
--   <https://dev.fitbit.com/docs/subscriptions/>
+### Devices
 
-### User
+``` r
+# Get deice information you registerd
+get_devices(token)
+#>   battery deviceVersion features        id        lastSyncTime
+#> 1  Medium       Alta HR     NULL 424040354 2017-11-28 15:12:39
+#>            mac    type
+#> 1 9F1F7466C3DA TRACKER
 
--   <https://dev.fitbit.com/docs/user/>
+# Add alarms
+tracker_id <- get_devices(token)$id[1]
+add_alarm(token, tracker_id, "07:15-08:00", "MONDAY")
+#>     alarmId deleted enabled recurring snoozeCount snoozeLength
+#> 1 557227733   FALSE    TRUE     FALSE           3            9
+#>   syncedToDevice        time    vibe weekDays
+#> 1          FALSE 00:15+09:00 DEFAULT
+alarm <- get_alarms(token, tracker_id)
+alarm
+#>     alarmId deleted enabled recurring snoozeCount snoozeLength
+#> 1 471178121   FALSE   FALSE      TRUE           3            9
+#> 2 557227733   FALSE    TRUE     FALSE           3            9
+#>   syncedToDevice        time    vibe
+#> 1           TRUE 05:03+09:00 DEFAULT
+#> 2          FALSE 00:15+09:00 DEFAULT
+#>                                       weekDays
+#> 1 MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY
+#> 2
+
+# Update the content alarm
+alarm_id <- tail(alarm, 1)$alarmId
+update_alarm(token, tracker_id, alarm_id, "02:15-03:00", "FRIDAY")
+#>     alarmId deleted enabled recurring snoozeCount snoozeLength
+#> 1 557227733   FALSE    TRUE     FALSE           9            3
+#>   syncedToDevice        time    vibe weekDays
+#> 1          FALSE 14:15+09:00 DEFAULT
+get_alarms(token, tracker_id)
+#>     alarmId deleted enabled recurring snoozeCount snoozeLength
+#> 1 471178121   FALSE   FALSE      TRUE           3            9
+#> 2 557227733   FALSE    TRUE     FALSE           9            3
+#>   syncedToDevice        time    vibe
+#> 1           TRUE 05:03+09:00 DEFAULT
+#> 2          FALSE 14:15+09:00 DEFAULT
+#>                                       weekDays
+#> 1 MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY
+#> 2
+
+# Delete alarm you registered here
+delete_alarm(token, tracker_id, alarm_id)
+#> Response [https://api.fitbit.com/1/user/-/devices/tracker/424040354/alarms/557227733.json]
+#>   Date: 2017-12-16 10:50
+#>   Status: 204
+#>   Content-Type: application/json;charset=UTF-8
+#> <EMPTY BODY>
+get_alarms(token, tracker_id)
+#>     alarmId deleted enabled recurring snoozeCount snoozeLength
+#> 1 471178121   FALSE   FALSE      TRUE           3            9
+#>   syncedToDevice        time    vibe
+#> 1           TRUE 05:03+09:00 DEFAULT
+#>                                       weekDays
+#> 1 MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY
+```
+
+You can find more details [here](https://dev.fitbit.com/docs/devices/).
 
 Contributing
 ------------
@@ -311,3 +293,20 @@ Acknowledgements
 ----------------
 
 Many thanks to Mr.dichika since This package is based on the extension of [myFitbit package](https://github.com/dichika/myFitbit).
+
+<!--
+Future implementation
+### Food Logging
+You can find more details [here](https://dev.fitbit.com/docs/food-logging/).
+### Friends
+You can find more details [here](https://dev.fitbit.com/docs/friends/).
+
+### Subscriptions
+- https://dev.fitbit.com/docs/subscriptions/
+
+### User
+- https://dev.fitbit.com/docs/user/
+### Body & Weight
+You can find more details in [here](https://dev.fitbit.com/docs/body/)
+
+-->
