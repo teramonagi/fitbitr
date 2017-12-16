@@ -18,4 +18,3 @@ Returns a user's current sleep goal
 get_sleep_goal(token)
 }
 }
-

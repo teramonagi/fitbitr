@@ -14,12 +14,11 @@ Imports:
     tidyr,
     httr,
     jsonlite,
-    data.table,
     httpuv,
-    base64enc
+    RCurl
 Suggests:
     testthat
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1
 Collate:
     'fitbitr.R'
     'activity.R'

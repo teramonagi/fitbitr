@@ -14,4 +14,3 @@ get_alarms(token, tracker_id)
 \description{
 Returns a list of the set alarms connected to a user's account.
 }
-

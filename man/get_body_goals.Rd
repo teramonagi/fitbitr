@@ -14,4 +14,3 @@ get_body_goals(token, goal_type)
 \description{
 The Get Body Goals API retrieves a user's current body fat percentage or weight goal using units in the unit systems that corresponds to the Accept-Language header provided in the format requested.
 }
-

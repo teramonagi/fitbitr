@@ -12,4 +12,3 @@ get_devices(token)
 \description{
 Returns a list of the Fitbit devices connected to a user's account.
 }
-

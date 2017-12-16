@@ -18,4 +18,3 @@ Delete Favorite Activity
 The Delete Favorite Activity removes the activity with the given ID from a user's list of favorite activities.
 Note: A successful request returns a 204 status code with an empty response body.
 }
-

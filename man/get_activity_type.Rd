@@ -15,4 +15,3 @@ get_activity_type(activity_id)
 Returns the details of a specific activity in the Fitbit activities database in the format requested.
 If activity has levels, also returns a list of activity level details.
 }
-

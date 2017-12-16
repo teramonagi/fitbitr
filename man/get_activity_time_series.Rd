@@ -30,4 +30,3 @@ The activities/tracker/calories resource does not include the Estimated Energy R
 The activities collection is maintained as a backwards compatible resource urls (e.g. activities/log/calories).
 Elevation time series (/elevation, /floors) are only available for users with compatible trackers.
 }
-

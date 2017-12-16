@@ -23,4 +23,3 @@ add_alarm(token, tracker_id, time, weekday, enabled = TRUE,
 \description{
 Adds the alarm settings to a given ID for a given device.
 }
-

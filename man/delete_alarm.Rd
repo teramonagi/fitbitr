@@ -16,4 +16,3 @@ delete_alarm(token, tracker_id, alarm_id)
 \description{
 Deletes the user's device alarm entry with the given ID for a given device.
 }
-

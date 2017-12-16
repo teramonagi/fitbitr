@@ -25,4 +25,3 @@ timeInBed = minutesToFallAsleep + minutesAsleep + minutesAwake + minutesAfterWak
 
 Also, values for minuteData can be 1 ("asleep"), 2 ("awake"), or 3 ("really awake").
 }
-

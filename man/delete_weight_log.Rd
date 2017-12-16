@@ -17,4 +17,3 @@ The Delete Weight Log API deletes a user's body weight log entry with the given 
 \details{
 Note: A successful request returns a 204 status code with an empty response body.
 }
-

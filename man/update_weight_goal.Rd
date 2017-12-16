@@ -18,4 +18,3 @@ update_weight_goal(token, goal_weight = NULL, start_weight, start_date)
 \description{
 The Update Weight Goal API creates or updates user's fat or weight goal using units in the unit systems that corresponds to the Accept-Language header provided in the format requested.
 }
-

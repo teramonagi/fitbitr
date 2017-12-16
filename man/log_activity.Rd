@@ -40,4 +40,3 @@ In the process of creating new activity log entry it is possible to seamlessly c
 
 Note: The steps field is only included for activities that have steps ("Walking" or "Running") and distance is only included when it is relevant.
 }
-

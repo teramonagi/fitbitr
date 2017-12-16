@@ -20,4 +20,3 @@ The Update Sleep Goal endpoint creates or updates a user's sleep goal and get a 
 update_sleep_goal(token, 377)
 }
 }
-

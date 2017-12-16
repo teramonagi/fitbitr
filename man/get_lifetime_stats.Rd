@@ -16,4 +16,3 @@ Retrieves the user's activity statistics in the format requested using units in 
 Privacy Setting
 The My Achievements (Friends or Anyone) privacy permission grants access to user's resource.
 }
-

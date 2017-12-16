@@ -26,4 +26,3 @@ The Get Body Time Series API returns time series data in the specified range for
 \details{
 Note: If you provide earlier dates in the request, the response retrieves only data since the user's join date or the first log entry date for the requested collection.
 }
-

@@ -19,4 +19,3 @@ The Log Weight API creates log entry for a body weight using units in the unit s
 \details{
 Note: The returned Weight Log IDs are unique to the user, but not globally unique.
 }
-

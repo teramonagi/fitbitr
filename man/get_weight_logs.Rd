@@ -24,4 +24,3 @@ The Get Weight Logs endpoint returns time series data in the specified range for
 \details{
 Even if you provide earlier dates in the request, the response will retrieve only data since the user's join date or the first log entry date for the requested collection.
 }
-

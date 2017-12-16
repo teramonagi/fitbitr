@@ -21,4 +21,3 @@ get_activity_TCX()
 Finding an "activity's log id"
 Go to the Activity Logs page in the Fitbit Web app. Click View Details button on the Activity History pane that contains GPS data. The activity log id will be in the URL, e.g. 213560689 in https://www.fitbit.com/activities/exercise/213560689 . The GPS activities appears in the Get Activities and Get Activities List endpoints contains GPS activities.
 }
-

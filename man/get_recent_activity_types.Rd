@@ -13,4 +13,3 @@ get_recent_activity_types(token)
 Retrieves a list of a user's recent activities types logged with some details of the last activity log of that type using units in the unit system which corresponds to the Accept-Language header provided.
 The record retrieved can be used to log the activity via the Log Activity endpoint with the same or adjusted values for distance and duration.
 }
-
