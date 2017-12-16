@@ -20,4 +20,3 @@ Creates a log entry for a sleep event and returns a response in the format reque
 Keep in mind that it is NOT possible to create overlapping log entries or entries for time periods that DO NOT originate from a tracker.
 Sleep log entries appear on website's sleep tracker interface according to the date on which the sleep event ends.
 }
-

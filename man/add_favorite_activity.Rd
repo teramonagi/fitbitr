@@ -15,4 +15,3 @@ add_favorite_activity(token, activity_id)
 The Add Favorite Activity endpoint adds the activity with the given ID to user's list of favorite activities.
 Note: A successful request returns a 201 response code with an empty body.
 }
-

@@ -22,4 +22,3 @@ get_heart_rate_time_series(token, date = "", period = "", base_date = "",
 Returns time series data in the specified range for a given resource in the format requested
 If you specify earlier dates in the request, the response will retrieve only data since the user's join date or the first log entry date for the requested collection.
 }
-

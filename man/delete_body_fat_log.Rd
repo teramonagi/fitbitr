@@ -17,4 +17,3 @@ The Delete Body Fat Log API deletes a user's body fat log entry with the given I
 \details{
 Note: A successful request returns a 204 status code with an empty response body.
 }
-

@@ -30,8 +30,8 @@ get_heart_rate_time_series <- function(token, date="", period="", base_date="", 
       data.frame(caloriesOut=NA, dplyr::select(x, max, min), minutes=0, name=x$name)
     } else{x}
   })
-  df <- as.data.frame(data.table::rbindlist(heart_rate_zones))
-  df$name <- str_replace_all(tolower(df$name), " ", "_")
+  df <- dplyr::bind_rows(heart_rate_zones)
+  df$name <- stringr::str_replace_all(tolower(df$name), " ", "_")
   df <- dplyr::data_frame(
     date  = rep(rep(date, each=4), 2),
     name  = c(paste0(df$name, "_max"), paste0(df$name, "_min")),

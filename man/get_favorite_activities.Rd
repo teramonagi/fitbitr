@@ -12,4 +12,3 @@ get_favorite_activities(token)
 \description{
 Returns a list of a user's favorite activities.
 }
-

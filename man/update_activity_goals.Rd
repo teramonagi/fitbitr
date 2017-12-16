@@ -24,4 +24,3 @@ update_activity_goals(token)
 \description{
 The Update Activity Goals endpoint creates or updates a user's daily activity goals and returns a response using units in the unit system which corresponds to the Accept-Language header provided.
 }
-

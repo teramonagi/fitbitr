@@ -14,4 +14,3 @@ update_body_fat_goal(token, goal)
 \description{
 The Update Body Fat Goal API creates or updates user's fat percentage goal.
 }
-

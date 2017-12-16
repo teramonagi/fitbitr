@@ -23,4 +23,3 @@ get_activity_logs_list(token, before_date, after_date, sort, offset, limit)
 Retrieves a list of a user's activity log entries before or after a given day with offset and limit using units in the unit system which corresponds to the Accept-Language header provided.
 Note: This is a beta feature that will soon have a backwards incompatible change. Please see this announcement.
 }
-

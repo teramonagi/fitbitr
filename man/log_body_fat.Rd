@@ -19,4 +19,3 @@ log_body_fat(token, fat, date, time = NULL)
 The Log Body Fat API creates a log entry for body fat and returns a response in the format requested.
 Note: The returned Body Fat Log IDs are unique to the user, but not globally unique.
 }
-

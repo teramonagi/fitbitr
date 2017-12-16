@@ -21,4 +21,3 @@ get_body_fat_logs(token, date = "", base_date = "", period = "",
 \description{
 The Get Body Fat Logs API retrieves a list of all user's body fat log entries for a given day in the format requested. Body fat log entries are available only to authorized user. If you need to fetch only the most recent entry, you can use the Get Body Measurements endpoint.
 }
-

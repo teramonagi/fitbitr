@@ -22,4 +22,3 @@ The default daily goal values are:
 30 active minutes
 Calories out is user specific, which accounts for BMR
 }
-

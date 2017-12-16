@@ -37,4 +37,3 @@ Resource Path Options in more detail.
   \item{efficiency}
 }
 }
-

@@ -15,4 +15,3 @@ delete_sleep_log(token, log_id)
 Deletes a user's sleep log entry with the given ID.
 A successful request will return a 204 status code with an empty response body.
 }
-

@@ -34,4 +34,3 @@ update_alarm(token, tracker_id, alarm_id, time, weekday, enabled = TRUE,
 \description{
 Updates the alarm entry with a given ID for a given device. It also gets a response in the format requested.
 }
-

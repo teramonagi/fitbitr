@@ -14,4 +14,3 @@ delete_activity_log(token, activity_log_id)
 \description{
 The Delete Activity Log endpoint deletes a user's activity log entry with the given ID. A successful request will return a 204 status code with an empty response body.
 }
-

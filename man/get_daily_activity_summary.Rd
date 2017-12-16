@@ -20,4 +20,3 @@ The steps field in activity log entires included only for activities that have s
 A false value for field means that activity log entry was created without explicit start time via some of our data import workflows. The field for such entry is commonly set to 00:00.
 Calorie burn goal (caloriesOut) represents either dynamic daily target from the premium trainer plan or manual calorie burn goal. Goals are included to the response only for today and 21 days in the past.
 }
-

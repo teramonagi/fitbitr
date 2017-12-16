@@ -11,4 +11,3 @@ Browse Activity Types
 Get a tree of all valid Fitbit public activities from the activities catalog as well as private custom activities the user created in the format requested. If the activity has levels, also get a list of activity level details.
 Typically, an applications retrieve the complete list of activities once at startup to cache and show in the UI later.
 }
-

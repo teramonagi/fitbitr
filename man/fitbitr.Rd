@@ -3,8 +3,8 @@
 \docType{package}
 \name{fitbitr}
 \alias{fitbitr}
-\alias{fitbitr-package}
 \alias{url_base}
+\alias{fitbitr-package}
 \title{fitbitr}
 \format{An object of class \code{character} of length 1.}
 \usage{
@@ -14,4 +14,3 @@ url_base
 Provides an API Access to fitbit API via R
 }
 \keyword{datasets}
-

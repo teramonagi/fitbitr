@@ -9,4 +9,5 @@ inst/doc
 .httr-oauth
 *.Rds
 vignettes/*.R
-.DS_Store
+README_cache/
+temp_token

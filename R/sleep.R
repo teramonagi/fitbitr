@@ -74,7 +74,7 @@ sleep_goal <- function(token, minDuration=NULL)
     post(url, token, body=list(minDuration=minDuration))
   }
 
-  result <- as.data.frame(data.table::rbindlist(convert_content_to_r_object(response)))
+  result <- Reduce(cbind, lapply(convert_content_to_r_object(response), as.data.frame))
   result$updatedOn <- to_posixct(result$updatedOn)
   result
 }
@@ -131,7 +131,7 @@ log_sleep <- function(token, startTime, duration, date)
   url <- paste0(url_api, "sleep.json")
   body <- list(startTime=startTime, duration=10^3*60*duration, date=format_date(date))
   response <- post(url, token, body=body)
-  as.data.frame(data.table::rbindlist(convert_content_to_r_object(response)))
+  lapply(convert_content_to_r_object(response), as.data.frame)[[1]]
 }
 
 #' Delete Sleep Log
@@ -144,6 +144,8 @@ log_sleep <- function(token, startTime, duration, date)
 #' @export
 delete_sleep_log <- function(token, log_id)
 {
-  url <- paste0(url_sleep, sprintf("%s.json", log_id))
-  httr::DELETE(url=url, httr::config(token = token))
+  for(id in unique(log_id)){
+    url <- paste0(url_sleep, sprintf("%s.json", id))
+    delete(url=url, token)
+  }
 }
