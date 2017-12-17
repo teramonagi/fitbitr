@@ -20,7 +20,5 @@ get_weight_logs(token, date = NULL, base_date = NULL, period = NULL,
 }
 \description{
 The Get Weight Logs endpoint returns time series data in the specified range for a given resource in the format requested using units in the unit system that corresponds to the Accept-Language header provided.
-}
-\details{
 Even if you provide earlier dates in the request, the response will retrieve only data since the user's join date or the first log entry date for the requested collection.
 }
