@@ -63,7 +63,7 @@ get_sleep_goal <- function(token){sleep_goal(token)}
 #' update_sleep_goal(token, 377)
 #' }
 #' @export
-update_sleep_goal <- function(token, minDuration){sleep_goal(token, min_duration)}
+update_sleep_goal <- function(token, min_duration){sleep_goal(token, min_duration)}
 
 sleep_goal <- function(token, min_duration=NULL)
 {

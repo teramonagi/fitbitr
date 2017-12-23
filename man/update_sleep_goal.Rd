@@ -4,7 +4,7 @@
 \alias{update_sleep_goal}
 \title{Update Sleep Goal}
 \usage{
-update_sleep_goal(token, minDuration)
+update_sleep_goal(token, min_duration)
 }
 \arguments{
 \item{token}{An OAuth 2.0 token}
