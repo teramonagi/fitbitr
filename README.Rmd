@@ -71,7 +71,7 @@ token <- fitbitr::oauth_token()
 This function open a web browser autmatically and return Fitbit token.
 
 ```{r, echo=FALSE}
-#Adhoc to build this document on my PC...
+#Adhoc to build:q! this document on my PC...
 #saveRDS(token, "temp_token")
 token <- readRDS("temp_token")
 ```
