@@ -86,6 +86,8 @@ date <- "2016-06-01"
 # You have to use a **personal** key and secret.
 df <- get_activity_intraday_time_series(token, "steps", date, detail_level="15min")
 ggplot(df, aes(x=time, y=value)) + geom_line()
+
+get_daily_activity_summary(token, "2017-10-10")
 ```
 
 You can find more details in [here](https://dev.fitbit.com/docs/activity/)

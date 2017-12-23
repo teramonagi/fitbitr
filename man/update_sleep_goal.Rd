@@ -4,12 +4,12 @@
 \alias{update_sleep_goal}
 \title{Update Sleep Goal}
 \usage{
-update_sleep_goal(token, minDuration)
+update_sleep_goal(token, min_duration)
 }
 \arguments{
 \item{token}{An OAuth 2.0 token}
 
-\item{minDuration}{The target sleep duration is in minutes.}
+\item{min_duration}{The target sleep duration is in minutes.}
 }
 \description{
 The Update Sleep Goal endpoint creates or updates a user's sleep goal and get a response in the in the format requested

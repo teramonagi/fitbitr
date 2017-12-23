@@ -1,4 +1,4 @@
-#Constants
+# Constants
 url_sleep <- paste0(url_api, "sleep/")
 
 #' Get Sleep Logs
@@ -56,22 +56,22 @@ get_sleep_goal <- function(token){sleep_goal(token)}
 #' The Update Sleep Goal endpoint creates or updates a user's sleep goal and get a response in the in the format requested
 #'
 #' @param token An OAuth 2.0 token
-#' @param minDuration	The target sleep duration is in minutes.
+#' @param min_duration The target sleep duration is in minutes.
 #' @examples
 #' \dontrun{
 #' #Set a new sleep goal(377)
 #' update_sleep_goal(token, 377)
 #' }
 #' @export
-update_sleep_goal <- function(token, minDuration){sleep_goal(token, minDuration)}
+update_sleep_goal <- function(token, min_duration){sleep_goal(token, min_duration)}
 
-sleep_goal <- function(token, minDuration=NULL)
+sleep_goal <- function(token, min_duration=NULL)
 {
   url <- paste0(url_sleep, "goal.json")
-  response <- if(is.null(minDuration)){
+  response <- if(is.null(min_duration)){
     get(url, token)
   }else{
-    post(url, token, body=list(minDuration=minDuration))
+    post(url, token, body=list(minDuration=min_duration))
   }
 
   result <- Reduce(cbind, lapply(convert_content_to_r_object(response), as.data.frame))
