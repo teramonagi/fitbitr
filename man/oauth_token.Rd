@@ -15,5 +15,5 @@ oauth_token(key = NULL, secret = NULL, callback = NULL)
 }
 \description{
 Generate an oauth token for fitbit.
-To get key and secret, You have to register your own information on https://dev.fitbit.com/jp.
+  To get key and secret, You have to register your own information on https://dev.fitbit.com/jp.
 }

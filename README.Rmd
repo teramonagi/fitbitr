@@ -47,7 +47,7 @@ After registration, you can get your own `FITBIT_KEY` and `FITBIT_SECRET` (refer
 ![](man/figures/manage_my_apps.png)
 </div>
 
-If you set the following variables as a global variable, this package use these values for API key.
+If you set the following variables as a global variable, this package will use these values for API key.
 ```{r, eval=FALSE}
 # As a global variable
 FITBIT_KEY    <- "<your-fitbit-key>"
@@ -56,10 +56,15 @@ FITBIT_SECRET <- "<your-firbit-secret>"
 # FITBIT_CALLBACK <- "<your-fitbit-callback>" 
 ```
 
+Or, you can set these values as a environment variable
+```{r, eval=FALSE}
+Sys.setenv(FITBIT_KEY = "<your-fitbit-key>", FITBIT_SECRET = "<your-firbit-secret>")
+```
+
 ### Load libraries
 ```{r}
-library("ggplot2") # for visualization in this document
 library("fitbitr")
+library("ggplot2") # for visualization in this document
 ```
 
 ### Get Fitbit API token
@@ -71,7 +76,7 @@ token <- fitbitr::oauth_token()
 This function open a web browser autmatically and return Fitbit token.
 
 ```{r, echo=FALSE}
-#Adhoc to build:q! this document on my PC...
+#Adhoc to build this document on my PC...
 #saveRDS(token, "temp_token")
 token <- readRDS("temp_token")
 ```
@@ -80,14 +85,30 @@ token <- readRDS("temp_token")
 ### Activity
 ```{r}
 # Example date
-date <- "2016-06-01"
+date <- "2017-12-29"
+
+# Get daily activity summary
+get_activity_summary(token, "today")
+
+# Get Activity Time Series
+get_activity_time_series(token, "steps", date=date, period="7d")
 
 # Get activity intraday time series
 # You have to use a **personal** key and secret.
 df <- get_activity_intraday_time_series(token, "steps", date, detail_level="15min")
-ggplot(df, aes(x=time, y=value)) + geom_line()
+df$time <- as.POSIXct(strptime(paste0(df$dateTime, " ", df$dataset_time), "%Y-%m-%d %H:%M:%S"))
+ggplot2::ggplot(df, aes(x=time, y=dataset_value)) + geom_line()
 
-get_daily_activity_summary(token, "2017-10-10")
+
+get_activity_types(token)
+
+# Get Frequent Activities
+get_frequent_activities(token)
+
+# Get Recent Activities
+get_recent_activity_types(token)
+
+get_favorite_activities(token)
 ```
 
 You can find more details in [here](https://dev.fitbit.com/docs/activity/)
@@ -100,7 +121,7 @@ date <- "2016-04-01"
 df <- get_heart_rate_time_series(token, date=date, period="7d")
 ggplot(df, aes(x=date, y=peak_max)) + geom_line()
 # Get intraday heart rate time series
-df <- get_heart_rate_intraday_time_series(token, date="2016-05-05", detail_level="15min")
+df <- get_heart_rate_intraday_time_series(token, date=date, detail_level="15min")
 ggplot(df, aes(x=time, y=value)) + geom_line()
 ```
 
