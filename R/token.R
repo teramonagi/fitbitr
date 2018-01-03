@@ -1,23 +1,28 @@
-#' Generate an oauth token for fitbit
+#' @title Generate an oauth token for fitbit
 #'
-#' Generate an oauth token for fitbit.
-#' To get key and secret, You have to register your own information on https://dev.fitbit.com/jp.
+#' @description
+#'   Generate an oauth token for fitbit.
+#'   To get key and secret, You have to register your own information on https://dev.fitbit.com/jp.
 #'
 #' @param key client key
 #' @param secret secret key
 #' @param callback callback URL configured by your own
+#'
 #' @export
-oauth_token <- function(key=NULL, secret=NULL, callback=NULL){
+oauth_token <- function(key=NULL, secret=NULL, callback=NULL)
+{
   if((is.null(key) && !is.null(secret)) || (!is.null(key) && is.null(secret))){
-    stop("Both of key and secret are given.")
+    stop("Both of key and secret must be given.")
   }
 
   #Load key automatically from global or environmnt variable
   if(is.null(key) && is.null(secret)){
     if(Sys.getenv("FITBIT_KEY") != "" && Sys.getenv("FITBIT_SECRET") != ""){
+      # Found in environment variables
       key <- Sys.getenv("FITBIT_KEY")
-      secrt <- Sys.getenv("FITBIT_SECRET")
+      secret <- Sys.getenv("FITBIT_SECRET")
     } else if (exists("FITBIT_KEY") && exists("FITBIT_SECRET")){
+      # Found in global variables
       key    <- FITBIT_KEY
       secret <- FITBIT_SECRET
     } else{

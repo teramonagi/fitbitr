@@ -12,5 +12,8 @@ delete_favorite_activity(token, activity_id)
 \item{activity_id}{The ID of the activity to be removed.}
 }
 \description{
-The Delete Favorite Activity removes the activity with the given ID (activity_id) from a user's list of favorite activities.
+\code{delete_favorite_activity()} removes the activity with the given ID (activity_id) from a user's list of favorite activities.
+}
+\details{
+See \url{https://dev.fitbit.com/reference/web-api/activity/#delete-favorite-activity} for more details.
 }
