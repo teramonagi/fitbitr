@@ -20,7 +20,7 @@ get_activity_time_series(token, resource_path, date = "", period = "",
 
 \item{end_date}{The end date of the range. A Date class object or a string in the format yyyy-MM-dd.}
 
-\item{simplify}{coerce a list into a data.frame}
+\item{simplify}{logical; should the result be simplified from a list to a data.frame if possible}
 }
 \description{
 \code{get_activity_time_series()} returns time series data in the specified range for a given resource.

@@ -20,6 +20,8 @@ get_activity_intraday_time_series(token, resource_path, date,
 \item{start_time}{The start of the period, in the format HH:mm. Optional.}
 
 \item{end_time}{The end of the period, in the format HH:mm. Optional.}
+
+\item{simplify}{logical; should the result be simplified from a list to a data.frame if possible}
 }
 \description{
 \code{get_activity_intraday_time_series()} returns intraday time series data in the specified range for a given resource.
