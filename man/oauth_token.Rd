@@ -4,16 +4,26 @@
 \alias{oauth_token}
 \title{Generate an oauth token for fitbit}
 \usage{
-oauth_token(key = NULL, secret = NULL, callback = NULL)
+oauth_token(key = NULL, secret = NULL, callback = NULL, locale = NULL,
+  language = NULL)
 }
 \arguments{
-\item{key}{client key}
+\item{key}{Client key}
 
-\item{secret}{secret key}
+\item{secret}{Secret key}
 
-\item{callback}{callback URL configured by your own}
+\item{callback}{Callback URL configured by your own}
+
+\item{locale}{Locales which is suitable for displaying a translated response if available.
+Possible values: c(en_AU | fr_FR | de_DE | ja_JP | en_NZ | es_ES | en_GB | en_US)}
+
+\item{language}{The unit systems of values.
+Possible values: c(en_US | en_GB | other )}
 }
 \description{
 Generate an oauth token for fitbit.
   To get key and secret, You have to register your own information on https://dev.fitbit.com/jp.
+}
+\details{
+See \url{https://dev.fitbit.com/reference/web-api/basics/#language} for more details.
 }
