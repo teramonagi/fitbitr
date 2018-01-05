@@ -138,12 +138,13 @@ You can find more details in [here](https://dev.fitbit.com/docs/activity/)
 ### Heart Rate
 ```{r}
 # Set a date for example
-date <- "2016-04-01"
+date <- "2017-12-25"
 # Get heart rate time series
 df <- get_heart_rate_time_series(token, date=date, period="7d")
 ggplot(df, aes(x=date, y=peak_max)) + geom_line()
 # Get intraday heart rate time series
 df <- get_heart_rate_intraday_time_series(token, date=date, detail_level="15min")
+df$time <- as.POSIXct(paste0(date, " ", df$time))
 ggplot(df, aes(x=time, y=value)) + geom_line()
 ```
 

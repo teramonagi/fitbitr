@@ -9,9 +9,8 @@ inheritparams_date <- function(){}
 #' @param simplify logical; should the result be simplified from a list to a data.frame if possible
 inheritparams_simplify <- function(){}
 
-tidy_output <- function(response, simplify)
+tidy_output <- function(content, simplify)
 {
-  content <- convert_content_to_r_object(response)
   if(!simplify){return(content)}
   if(is.data.frame(content)){return(content)}
   if(length(content) == 0){return(content)}
@@ -42,17 +41,20 @@ get <- function(url, token)
   if(!is.null(token$language)){
     header <- c(header, "Accept-Language"=token$language)
   }
-  check_response(httr::GET(url=url, httr::add_headers(.headers = header), httr::config(token = token$token)))
+  response <- httr::GET(url=url, httr::add_headers(.headers = header), httr::config(token = token$token))
+  extract_content(check_response(response))
 }
 
 post <- function(url, token, body)
 {
-  check_response(httr::POST(url=url, body=body, httr::config(token = token$token)))
+  response <- check_response(httr::POST(url=url, body=body, httr::config(token = token$token)))
+  extract_content(check_response(response))
 }
 
 delete <- function(url, token)
 {
-  check_response(httr::DELETE(url=url, httr::config(token = token$token)))
+  response <- check_response(httr::DELETE(url=url, httr::config(token = token$token)))
+  extract_content(check_response(response))
 }
 
 make_get_function <- function(url)
@@ -63,7 +65,7 @@ make_get_function <- function(url)
   }
 }
 
-convert_content_to_r_object <- function(response)
+extract_content <- function(response)
 {
   jsonlite::fromJSON(httr::content(response, as = "text"))
 }
