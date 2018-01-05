@@ -72,6 +72,11 @@ You can get your Fitbit toekn using `fitbitr::oauth_token()`:
 ```{r, eval=FALSE}
 # Get token
 token <- fitbitr::oauth_token()
+# Get token
+token <- fitbitr::oauth_token(language="en_US")
+
+# Get token
+token <- fitbitr::oauth_token(language="en_GB")
 ```
 This function open a web browser autmatically and return Fitbit token.
 
@@ -91,7 +96,7 @@ date <- "2017-12-29"
 str(get_activity_summary(token, date))
 
 # Get Activity Time Series
-get_activity_time_series(token, "steps", date=date, period="7d")
+get_activity_time_series(token, "distance", date=date, period="7d")
 
 # Get activity intraday time series
 # You have to use a **personal** key and secret.

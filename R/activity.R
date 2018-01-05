@@ -1,14 +1,7 @@
 #' @include fitbitr.R
+#' @include common.R
 # Constants
 url_activity <- paste0(url_api, "activities/")
-
-make_get_function <- function(url)
-{
-  function(token, simplify=TRUE)
-  {
-    tidy_output(get(url, token), simplify)
-  }
-}
 
 #' @title Get Daily Activity Summary
 #'

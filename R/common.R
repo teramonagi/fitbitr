@@ -35,17 +35,32 @@ check_response <- function(response)
 
 get <- function(url, token)
 {
-  check_response(httr::GET(url=url, httr::config(token = token)))
+  header <- character()
+  if(!is.null(token$locale)){
+    header <- c("Accept-Locale"=token$locale)
+  }
+  if(!is.null(token$language)){
+    header <- c(header, "Accept-Language"=token$language)
+  }
+  check_response(httr::GET(url=url, httr::add_headers(.headers = header), httr::config(token = token$token)))
 }
 
 post <- function(url, token, body)
 {
-  check_response(httr::POST(url=url, body=body, httr::config(token = token)))
+  check_response(httr::POST(url=url, body=body, httr::config(token = token$token)))
 }
 
 delete <- function(url, token)
 {
-  check_response(httr::DELETE(url=url, httr::config(token = token)))
+  check_response(httr::DELETE(url=url, httr::config(token = token$token)))
+}
+
+make_get_function <- function(url)
+{
+  function(token, simplify=TRUE)
+  {
+    tidy_output(get(url, token), simplify)
+  }
 }
 
 convert_content_to_r_object <- function(response)
