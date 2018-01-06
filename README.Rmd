@@ -205,6 +205,16 @@ get_alarms(token, tracker_id)
 
 You can find more details [here](https://dev.fitbit.com/docs/devices/).
 
+### Body and Weight
+```{r}
+log_body_fat(token, 12.54, "2017-12-01")
+log_body_fat(token, 12.54, "2017-12-02")
+df <- get_body_fat_logs(token, date="2017-12-05", period="7d")
+df
+delete_body_fat_log(token, df$logId[1])
+get_body_fat_logs(token, date="2017-12-05", period="7d")
+```
+
 ## Contributing
 - Fork it ( https://github.com/teramonagi/fitbitr/fork )
 - Create your feature branch (git checkout -b my-new-feature)

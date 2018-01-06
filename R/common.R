@@ -54,7 +54,7 @@ post <- function(url, token, body)
 delete <- function(url, token)
 {
   response <- check_response(httr::DELETE(url=url, httr::config(token = token$token)))
-  extract_content(check_response(response))
+  check_response(response)
 }
 
 make_get_function <- function(url)
