@@ -20,8 +20,7 @@ get_sleep_logs <- function(token, date)
 {
   date <- format_date(date)
   url <- paste0(url_sleep, sprintf("date/%s.json", date))
-  response <- get(url, token)
-  data <- extract_content(response)
+  data <- get(url, token)
   data$sleep$dateOfSleep <- as.Date(data$sleep$dateOfSleep)
   data$sleep$startTime   <- to_posixct(data$sleep$startTime)
   data$sleep$minuteData  <- lapply(data$sleep$minuteData, function(x){
@@ -74,7 +73,7 @@ sleep_goal <- function(token, min_duration=NULL)
     post(url, token, body=list(minDuration=min_duration))
   }
 
-  result <- Reduce(cbind, lapply(extract_content(response), as.data.frame))
+  result <- Reduce(cbind, lapply(response, as.data.frame))
   result$updatedOn <- to_posixct(result$updatedOn)
   result
 }
@@ -110,9 +109,7 @@ get_sleep_time_series <- function(token, resource_path, date="", period="", base
   } else if(base_date != "" & end_date != ""){
     paste0(url_sleep, sprintf("%s/date/%s/%s.json", resource_path, format_date(base_date), format_date(end_date)))
   }
-  response <- get(url, token)
-  data <- extract_content(response)
-  data[[1]]
+  get(url, token)[[1]]
 }
 
 #' Log Sleep
@@ -131,7 +128,7 @@ log_sleep <- function(token, startTime, duration, date)
   url <- paste0(url_api, "sleep.json")
   body <- list(startTime=startTime, duration=10^3*60*duration, date=format_date(date))
   response <- post(url, token, body=body)
-  lapply(extract_content(response), as.data.frame)[[1]]
+  lapply(response, as.data.frame)[[1]]
 }
 
 #' Delete Sleep Log
