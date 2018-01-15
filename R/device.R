@@ -8,8 +8,7 @@
 get_devices <- function(token)
 {
   url <- paste0(url_api, "devices.json")
-  response <- get(url, token)
-  extract_content(response)
+  get(url, token)
 }
 
 #' Get Alarms
@@ -24,7 +23,7 @@ get_alarms <- function(token, tracker_id)
 {
   url <- paste0(url_api, sprintf("devices/tracker/%s/alarms.json", tracker_id))
   response <- get(url, token)
-  result <- extract_content(response)$trackerAlarms
+  result <- response$trackerAlarms
   if(length(result) == 0){
     data.frame(
       alarmId=integer(),
@@ -59,7 +58,7 @@ add_alarm <- function(token, tracker_id, time, weekday, enabled=TRUE, recurring=
   url <- paste0(url_api, sprintf("devices/tracker/%s/alarms.json", tracker_id))
   body <- list(time=time, enabled=enabled, recurring=recurring, weekDays=weekday)
   response <- post(url, token, body=body)
-  data <- extract_content(response)$trackerAlarm
+  data <- response$trackerAlarm
   data$weekDays <- if(length(data$weekDays) == 0){""}else{data$weekDays}
   as.data.frame(data)
 }
@@ -86,7 +85,7 @@ update_alarm <- function(token, tracker_id, alarm_id, time, weekday, enabled=TRU
   url <- paste0(url_api, sprintf("devices/tracker/%s/alarms/%s.json", tracker_id, alarm_id))
   body <- list(time=time, enabled=enabled, recurring=recurring, weekDays=weekday, snoozeLength=snooze_length, snoozeCount=snooze_count, label=label, vibe=vibe)
   response <- post(url, token, body=body)
-  data <- extract_content(response)$trackerAlarm
+  data <- response$trackerAlarm
   data$weekDays <- if(length(data$weekDays) == 0){""}else{data$weekDays}
   as.data.frame(data)
 }
