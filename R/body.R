@@ -21,7 +21,7 @@ get_body_fat_logs <- function(token, date="", base_date="", period="", end_date=
     paste0(url_body, sprintf("log/fat/date/%s.json", format_date(date)))
   }
   response <- get(url, token)
-  data <- convert_content_to_r_object(response)
+  data <- extract_content(response)
   data[[1]]
 }
 
@@ -44,7 +44,7 @@ log_body_fat <- function(token, fat, date, time=NULL)
     list(fat=fat, date=format_date(date))
   }
   response <- post(url, token, body=body)
-  convert_content_to_r_object(response)
+  extract_content(response)
 }
 
 #' Delete Body Fat Log
@@ -59,7 +59,7 @@ log_body_fat <- function(token, fat, date, time=NULL)
 delete_body_fat_log <- function(token, log_id)
 {
   url <- paste0(url_body, sprintf("log/fat/%s.json", as.character(log_id)))
-  # convert_content_to_r_object fails in this case because the response body is
+  # extract_content fails in this case because the response body is
   # empty, so just return the raw response for now
   delete(url, token)
 }
@@ -87,7 +87,7 @@ get_body_time_series <- function(token, resource_path, base_date=NULL, end_date=
     stop("Please supply either base_date and end_date or date and period parameters.")
   }
   response <- get(url, token)
-  data <- convert_content_to_r_object(response)
+  data <- extract_content(response)
   data[[1]]
 }
 
@@ -105,7 +105,7 @@ get_body_goals <- function(token, goal_type)
   }
   url <- paste0(url_body, sprintf("log/%s/goal.json", goal_type))
   response <- get(url, token)
-  convert_content_to_r_object(response)
+  extract_content(response)
 }
 
 #' Update Body Fat Goal
@@ -119,7 +119,7 @@ update_body_fat_goal <- function(token, fat)
 {
   url <- paste0(url_body, "log/fat/goal.json")
   response <- post(url, token, body=list(fat=fat))
-  convert_content_to_r_object(response)
+  extract_content(response)
 }
 
 #' Update Weight Goal
@@ -140,7 +140,7 @@ update_weight_goal <- function(token, goal_weight=NULL, start_weight, start_date
     list(startWeight=start_weight, startDate=format_date(start_date))
   }
   response <- post(url, token, body=list)
-  convert_content_to_r_object(response)
+  extract_content(response)
 }
 
 #' Get Weight Logs
@@ -164,7 +164,7 @@ get_weight_logs <- function(token, date=NULL, base_date=NULL, period=NULL, end_d
     paste0(url_body, sprintf("log/weight/date/%s.json", format_date(date)))
   }
   response <- get(url, token)
-  data <- convert_content_to_r_object(response)
+  data <- extract_content(response)
   data[[1]]
 }
 
@@ -188,7 +188,7 @@ log_weight <- function(token, weight, date, time=NULL)
     list(weight=weight, date=format_date(date))
   }
   response <- post(url, token, body=body)
-  convert_content_to_r_object(response)
+  extract_content(response)
 }
 
 #' Delete Weight Log
@@ -203,7 +203,7 @@ log_weight <- function(token, weight, date, time=NULL)
 delete_weight_log <- function(token, log_id)
 {
   url <- paste0(url_body, sprintf("log/weight/%s.json", as.character(log_id)))
-  # convert_content_to_r_object fails in this case because the response body is
+  # extract_content fails in this case because the response body is
   # empty, so just return the raw response for now
   delete(url, token)
 }
