@@ -15,7 +15,7 @@
 #'   See \url{https://dev.fitbit.com/reference/web-api/basics/#language} for more details.
 #'
 #' @export
-oauth_token <- function(key=NULL, secret=NULL, callback=NULL, locale=NULL, language=NULL, use_basic_auth=TRUE)
+oauth_token <- function(key=NULL, secret=NULL, callback=NULL, locale=NULL, language=NULL, use_basic_auth=TRUE, auth_page_query_params=NULL)
 {
   #Load key automatically from global or environmnt variable
   keys <- tidy_key_and_secret(key, secret)
@@ -35,7 +35,7 @@ oauth_token <- function(key=NULL, secret=NULL, callback=NULL, locale=NULL, langu
   endpoint <- create_endpoint()
   myapp <- httr::oauth_app("r-package", key=keys$key, secret=keys$secret, redirect_uri=callback)
   list(
-    token=httr::oauth2.0_token(endpoint, myapp, scope=scope, use_basic_auth=use_basic_auth, config_init=c(header, content_type), cache=FALSE),
+    token=httr::oauth2.0_token(endpoint, myapp, scope=scope, use_basic_auth=use_basic_auth, config_init=c(header, content_type), cache=FALSE, auth_page_query_params=auth_page_query_params),
     locale=locale,
     language=language
   )
