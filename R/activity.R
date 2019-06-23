@@ -43,7 +43,11 @@ get_activity_log <- function(token, date = Sys.Date(), simplify=TRUE)
     sprintf(format_date(as.Date(format_date(date)) + 1)),
     "&sort=desc&offset=0&limit=20")
   re <- tidy_output(get(url, token), simplify=FALSE)$activities
-  re[re$originalStartTime == as.Date(date),]
+  if(is.data.frame(re)){
+    re[re$originalStartTime == as.Date(date),]
+  } else {
+    print("No logging for this date")
+  }
 }
 
 #' @title Get Activity Time Series
