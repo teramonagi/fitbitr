@@ -6,7 +6,7 @@ url_activity <- paste0(url_api, "activities/")
 #' @title Get Daily Activity Summary
 #'
 #' @description
-#'   \code{get_activity_summary()} retrieves a summary and list of a user's activities and activity log entries for a given day.
+#'   \code{get_activity_summary()} retrieves a summary and list of a user's activities for a given day.
 #'
 #' @inheritParams inheritparams_token
 #' @inheritParams inheritparams_date
@@ -21,6 +21,29 @@ get_activity_summary <- function(token, date, simplify=TRUE)
   url <- paste0(url_activity, sprintf("date/%s.json", format_date(date)))
   # We can not simplify this output because it is so complicated nested list
   tidy_output(get(url, token), simplify=FALSE)
+}
+
+#' @title Get Activity Log
+#'
+#' @description
+#'   \code{get_activity_summary()} retrieves a data.frame of a user's activity log entries for a given day.
+#'
+#' @inheritParams inheritparams_token
+#' @inheritParams inheritparams_date
+#' @inheritParams inheritparams_simplify
+#'
+#' @details
+#' See \url{https://dev.fitbit.com/build/reference/web-api/activity/#get-activity-logs-list} for more details.
+#'
+#' @export
+get_activity_log <- function(token, date = Sys.Date(), simplify=TRUE)
+{
+  url <- paste0(
+    url_activity, "list.json?beforeDate=",
+    sprintf(format_date(as.Date(format_date(date)) + 1)),
+    "&sort=desc&offset=0&limit=20")
+  re <- tidy_output(get(url, token), simplify=FALSE)$activities
+  re[re$originalStartTime == as.Date(date),]
 }
 
 #' @title Get Activity Time Series
