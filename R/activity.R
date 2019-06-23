@@ -26,7 +26,7 @@ get_activity_summary <- function(token, date, simplify=TRUE)
 #' @title Get Activity Log
 #'
 #' @description
-#'   \code{get_activity_summary()} retrieves a data.frame of a user's activity log entries for a given day.
+#'   \code{get_activity_log()} retrieves a data.frame of a user's activity log entries for a given day.
 #'
 #' @inheritParams inheritparams_token
 #' @inheritParams inheritparams_date
