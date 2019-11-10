@@ -4,8 +4,8 @@
 \alias{oauth_token}
 \title{Generate an oauth token for fitbit}
 \usage{
-oauth_token(key = NULL, secret = NULL, callback = NULL, locale = NULL,
-  language = NULL)
+oauth_token(key = NULL, secret = NULL, callback = NULL,
+  locale = NULL, language = NULL)
 }
 \arguments{
 \item{key}{Client key}
