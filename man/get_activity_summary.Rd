@@ -14,7 +14,7 @@ get_activity_summary(token, date, simplify = TRUE)
 \item{simplify}{logical; should the result be simplified from a list to a data.frame if possible}
 }
 \description{
-\code{get_activity_summary()} retrieves a summary and list of a user's activities and activity log entries for a given day.
+\code{get_activity_summary()} retrieves a summary and list of a user's activities for a given day.
 }
 \details{
 See \url{https://dev.fitbit.com/reference/web-api/activity/#get-daily-activity-summary} for more details.
