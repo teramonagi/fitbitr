@@ -11,11 +11,16 @@
 #'   Possible values: c(en_AU | fr_FR | de_DE | ja_JP | en_NZ | es_ES | en_GB | en_US)
 #' @param language The unit systems of values.
 #'   Possible values: c(en_US | en_GB | other )
+#' @param use_basic_auth Fitbit currently uses HTTR's basic_auth setting (so set to TRUE)
+#' @param auth_page_query_params Additional URI Paramters, e.g.
+#'   expires_in: c(86400, 604800, 2592000, 31536000)
+#'   prompt: c("none", "consent", "login", "login consent")
+#'   see https://dev.fitbit.com/build/reference/web-api/oauth2/ for full list
 #' @details
 #'   See \url{https://dev.fitbit.com/reference/web-api/basics/#language} for more details.
 #'
 #' @export
-oauth_token <- function(key=NULL, secret=NULL, callback=NULL, locale=NULL, language=NULL)
+oauth_token <- function(key=NULL, secret=NULL, callback=NULL, locale=NULL, language=NULL, use_basic_auth=TRUE, auth_page_query_params=list(prompt="none"))
 {
   #Load key automatically from global or environmnt variable
   keys <- tidy_key_and_secret(key, secret)
@@ -35,7 +40,7 @@ oauth_token <- function(key=NULL, secret=NULL, callback=NULL, locale=NULL, langu
   endpoint <- create_endpoint()
   myapp <- httr::oauth_app("r-package", key=keys$key, secret=keys$secret, redirect_uri=callback)
   list(
-    token=httr::oauth2.0_token(endpoint, myapp, scope=scope, config_init=c(header, content_type), cache=FALSE),
+    token=httr::oauth2.0_token(endpoint, myapp, scope=scope, use_basic_auth=use_basic_auth, config_init=c(header, content_type), cache=FALSE, query_authorize_extra=auth_page_query_params),
     locale=locale,
     language=language
   )
