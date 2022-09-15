@@ -71,10 +71,10 @@ extract_content <- function(response)
 }
 
 format_date <- function(date){
-  if(lubridate::is.Date(date)){
-    format(date, "%Y-%m-%d")
-  }else{
-    date
+  if (lubridate::is.Date(date)){
+    as.character(format(date, "%Y-%m-%d"))
+  } else{
+    as.character(date)
   }
 }
 
